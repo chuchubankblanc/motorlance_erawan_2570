@@ -218,7 +218,7 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 1
 
   <footer>
     <span>ที่มา: ไฟล์พิกัด MTL ศูนย์เอราวัณ 15.10.2569 · ระยะทางเป็นระยะเส้นตรง (ระยะวิ่งจริงจะไกลกว่า) · ขอบเขตเขต: ข้อมูลเปิด กทม.</span>
-    <span>แผนที่ถนน © OpenStreetMap contributors © CARTO</span>
+    <span>แผนที่ถนน © OpenStreetMap contributors</span>
   </footer>
 </div>
 
@@ -257,7 +257,8 @@ document.getElementById('sDist').textContent = covered.size + '/' + D.districts.
 // ---------- map
 const map = L.map('map',{zoomControl:false,attributionControl:true,preferCanvas:false,zoomSnap:0.25}).setView([13.75,100.6],10.5);
 L.control.zoom({position:'bottomright'}).addTo(map);
-const tiles = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:19,attribution:'© OpenStreetMap © CARTO'}).addTo(map);
+const TILE_URL='https://tile.openstreetmap.org/{z}/{x}/{y}.png', TILE_OPT={maxZoom:19,attribution:'© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'};
+const tiles = L.tileLayer(TILE_URL,TILE_OPT).addTo(map);
 let distLayer, labelLayer = L.layerGroup();
 function drawDistricts(){
   if(distLayer) distLayer.remove();
@@ -396,7 +397,7 @@ function renderDetail(){
     li.querySelector('.nm').style.cursor='pointer';li.querySelector('.nm').onclick=()=>{mini.flyTo([p.lat,p.lng],14,{duration:.4});};
     ul.appendChild(li);});
   if(!mini){mini=L.map('miniMap',{zoomControl:true,attributionControl:false,scrollWheelZoom:false});
-    if(map.hasLayer(tiles)) L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:19}).addTo(mini);
+    if(map.hasLayer(tiles)) L.tileLayer(TILE_URL,{maxZoom:19}).addTo(mini);
     L.geoJSON(D.districts,{interactive:false,style:{color:css('--border-map'),weight:1,fillColor:css('--land'),fillOpacity:.15}}).addTo(mini);
     miniLayer=L.layerGroup().addTo(mini);}
   mini.invalidateSize();miniLayer.clearLayers();
