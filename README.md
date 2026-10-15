@@ -4,9 +4,10 @@
 
 - 11 ทีม · 39 จุด (ข้อมูลพิกัด ณ 15 ต.ค. 2569)
 - แตะบนแผนที่เพื่อดูว่ามี Motorlance ในระยะ 3 กม. กี่จุด และจุดไหนใกล้ที่สุด
+- หน้าจอ "รายชื่อตามโรงพยาบาล" (ลิงก์ตรง `#hospitals`) แยก Motorlance ตามโรงพยาบาลต้นสังกัด พร้อมที่อยู่ระดับแขวง/เขต พิกัด และลิงก์ Google Maps
 - ปุ่ม "แสดงรัศมี 3 กม. ทุกจุด" เพื่อดูพื้นที่ที่ครอบคลุม / ยังไม่ครอบคลุม
 
 ระยะทางที่แสดงเป็นระยะเส้นตรง ระยะวิ่งจริงจะไกลกว่า
 
 ## อัปเดตข้อมูล
-แก้ไฟล์ docx ของพิกัดแล้วรัน `python3 source/build.py <districts.geojson> <file.docx> source/data.js` และ `python3 source/assemble.py source` (ดูสคริปต์)
+แก้ไฟล์ docx ของพิกัดแล้วรัน `python3 source/build.py <districts.geojson> <file.docx> source/data.js <subdistricts.geojson>` และ `python3 source/assemble.py source` (ดูสคริปต์)

@@ -1,5 +1,5 @@
 import json, sys, re, math, subprocess
-geo_path, docx_path, out_path = sys.argv[1:4]
+geo_path, docx_path, out_path, sub_path = sys.argv[1:5]
 txt = subprocess.run(['pandoc', docx_path, '-t', 'plain', '--wrap=none'], capture_output=True, text=True).stdout
 teams = []; cur = None
 for line in txt.splitlines():
@@ -43,8 +43,17 @@ for t in teams:
         p['district'] = None
         for f in feats:
             if any(pip(p['lng'], p['lat'], poly[0]) for poly in f['_raw']): p['district'] = f['properties']['name']; break
+subs = json.load(open(sub_path))['features']
+for t in teams:
+    for p in t['points']:
+        p['subdistrict'] = None
+        for f in subs:
+            if pip(p['lng'], p['lat'], f['geometry']['coordinates'][0]):
+                p['subdistrict'] = f['properties']['SNAME'].replace('แขวง', ''); sd = f['properties']['DNAME'].replace('เขต', '')
+                if sd != p['district']: print('MISMATCH', p['name'], sd, p['district'])
+                break
 for f in feats: del f['_raw']
 data = {'teams': teams, 'districts': {'type': 'FeatureCollection', 'features': feats}}
 open(out_path, 'w').write('window.MTL_DATA = ' + json.dumps(data, ensure_ascii=False, separators=(',', ':')) + ';\n')
-for t in teams: print(t['name'], '|', t['hospital'], len(t['points']), [p['district'] for p in t['points']])
+for t in teams: print(t['name'], '|', t['hospital'], len(t['points']), [(p['subdistrict'], p['district']) for p in t['points']])
 print(sum(len(t['points']) for t in teams), 'points', len({p['district'] for t in teams for p in t['points']}), 'districts')

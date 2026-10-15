@@ -95,7 +95,44 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 1
 .base-ico{display:grid;place-items:center;border-radius:6px;color:#fff;font:700 13px var(--font-display);border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35)}
 .inc-ico{display:grid;place-items:center}
 .leaflet-control-attribution{font-size:10px}
+/* tabs + hospital directory */
+.tabs{display:flex;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px;width:max-content;max-width:100%;flex-wrap:wrap}
+.tab{font:600 15px/1 var(--font-body);border:0;background:none;color:var(--muted);border-radius:999px;padding:10px 18px;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg)}
+.tab:focus-visible,.hosp:focus-visible,.pt .acts a:focus-visible,.pt .acts button:focus-visible{outline:3px solid var(--calm);outline-offset:2px}
+.dir{display:grid;grid-template-columns:300px minmax(0,1fr);gap:14px;align-items:start}
+.hosps{display:flex;flex-direction:column;gap:6px;position:sticky;top:env(safe-area-inset-top,0px)}
+.hosp{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:0 10px;align-items:center;text-align:left;font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:10px 12px;cursor:pointer}
+.hosp:hover{border-color:var(--muted)}
+.hosp[aria-selected="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.hosp .dot{width:14px;height:14px;border-radius:50%;grid-row:span 2}
+.hosp .t{font-weight:600;line-height:1.3}
+.hosp .h{font-size:12.5px;color:var(--muted);line-height:1.3;grid-column:2}
+.hosp .n{grid-row:1 / span 2;grid-column:3;font:700 18px var(--font-display);font-variant-numeric:tabular-nums}
+.detail{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;min-width:0}
+.dhead{padding:16px 20px;display:flex;flex-wrap:wrap;gap:8px 20px;align-items:flex-end;justify-content:space-between;border-top:6px solid var(--team,var(--ink))}
+.dhead h2{font:700 clamp(20px,2.4vw,26px)/1.2 var(--font-display);display:block}
+.dhead .sub{color:var(--muted);font-size:14px}
+.dhead .facts{display:flex;gap:18px;flex-wrap:wrap}
+.dhead .facts div{display:flex;flex-direction:column}
+.dhead .facts b{font:700 22px/1.2 var(--font-display);font-variant-numeric:tabular-nums}
+.dhead .facts span{font-size:12.5px;color:var(--muted)}
+#miniMap{height:300px;background:var(--land);border-block:1px solid var(--line)}
+.pts{list-style:none;margin:0;padding:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.pt{border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;display:flex;flex-direction:column;gap:6px;background:var(--bg)}
+.pt .top{display:flex;gap:10px;align-items:flex-start}
+.pt .no{flex:none;width:28px;height:28px;display:grid;place-items:center;color:#fff;font:700 14px var(--font-display);border-radius:50%}
+.pt .no.base{border-radius:6px}
+.pt .nm{font:600 16px/1.3 var(--font-display)}
+.pt .kind{font-size:12px;color:var(--muted)}
+.pt .addr{font-size:14px;line-height:1.5}
+.pt .addr small{display:block;color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
+.pt .acts{display:flex;gap:12px;flex-wrap:wrap;margin-top:auto;padding-top:4px}
+.pt .acts a,.pt .acts button{font:600 13px var(--font-body);color:var(--calm);background:none;border:0;padding:0;cursor:pointer;text-decoration:none}
+.dnote{font-size:12.5px;color:var(--muted);padding:0 20px 16px;margin:0}
 @media (max-width:900px){
+  .dir{grid-template-columns:1fr}
+  .hosps{position:static;display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
   .main{grid-template-columns:1fr}
   .mapbox{min-height:68vh}
   .panel section:last-child{overflow:visible}
@@ -117,6 +154,24 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 1
     </div>
   </header>
 
+  <div class="tabs" role="tablist" aria-label="เลือกหน้าจอ">
+    <button class="tab" role="tab" id="tabMap" aria-selected="true" aria-controls="viewMap" type="button">แผนที่ภาพรวม</button>
+    <button class="tab" role="tab" id="tabList" aria-selected="false" aria-controls="viewList" type="button">รายชื่อตามโรงพยาบาล</button>
+  </div>
+
+  <div id="viewList" role="tabpanel" aria-labelledby="tabList" hidden>
+    <div class="dir">
+      <div class="hosps" id="hosps" role="listbox" aria-label="โรงพยาบาลต้นสังกัด"></div>
+      <div class="detail" id="detail">
+        <div class="dhead" id="dhead"></div>
+        <div id="miniMap" aria-label="แผนที่จุดของโรงพยาบาลที่เลือก"></div>
+        <ul class="pts" id="pts"></ul>
+        <p class="dnote">ที่อยู่ระดับแขวง/เขต คำนวณจากพิกัดในไฟล์ เทียบกับขอบเขตแขวงชุดเดิม บางเขตมีการแบ่งแขวงใหม่แล้ว (เช่น เขตบางบอน) จึงระบุว่า "เดิม" กดชื่อจุดเพื่อดูบนแผนที่ หรือกด Google Maps เพื่อนำทาง</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="viewMap" role="tabpanel" aria-labelledby="tabMap" style="display:flex;flex-direction:column;gap:14px">
   <div class="explain">
     <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="var(--calm)"/><rect x="11" y="10" width="2" height="7" rx="1" fill="var(--surface)"/><circle cx="12" cy="7" r="1.3" fill="var(--surface)"/></svg>
     <p><b>Motorlance คืออะไร</b> — มอเตอร์ไซค์ของโรงพยาบาลในสังกัด กทม. ที่มีเจ้าหน้าที่กู้ชีพพร้อมอุปกรณ์ช่วยชีวิตเบื้องต้น ซอกแซกฝ่ารถติดไปถึงผู้ป่วยก่อน เพื่อเริ่มช่วยชีวิตระหว่างรอรถพยาบาล
@@ -156,6 +211,7 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 1
         <ul class="teams" id="teams"></ul>
       </section>
     </aside>
+  </div>
   </div>
 
   <footer>
@@ -310,5 +366,50 @@ mq.addEventListener&&mq.addEventListener('change',recolor);
 new MutationObserver(recolor).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
 // open with a realistic example: an incident at Victory Monument
 setIncident(13.7649,100.5383,'ราชเทวี (ตัวอย่าง: อนุสาวรีย์ชัยฯ)',false);
+
+// ---------- hospital directory view
+const RENAMED = new Set(['บางบอน']); // แขวงที่ถูกแบ่งใหม่หลังขอบเขตชุดนี้
+const addr = p => (p.subdistrict ? 'แขวง'+p.subdistrict+(RENAMED.has(p.subdistrict)?' (เดิม)':'')+' ' : '') + 'เขต'+(p.district||'–')+' กรุงเทพมหานคร';
+let selTeam = 0, mini = null, miniLayer = null;
+const hostEl=document.getElementById('hosps');
+D.teams.forEach((t,i)=>{const b=document.createElement('button');b.type='button';b.className='hosp';b.setAttribute('role','option');
+  b.innerHTML='<span class="dot" style="background:'+t.color+'"></span><span class="t">'+t.hospital+'</span><span class="n">'+t.points.length+'</span><span class="h">ทีม MTL '+t.name+'</span>';
+  b.onclick=()=>{selTeam=i;renderDetail();};hostEl.appendChild(b);});
+function renderDetail(){
+  const t=D.teams[selTeam];
+  hostEl.querySelectorAll('.hosp').forEach((b,i)=>b.setAttribute('aria-selected',String(i===selTeam)));
+  const dists=[...new Set(t.points.map(p=>p.district).filter(Boolean))];
+  const dh=document.getElementById('dhead');dh.style.setProperty('--team',t.color);
+  dh.innerHTML='<div><div class="sub">โรงพยาบาลต้นสังกัด · ทีม MTL '+t.name+'</div><h2>'+t.hospital+'</h2></div>'+
+    '<div class="facts"><div><b>'+t.points.length+'</b><span>จุดทั้งหมด</span></div><div><b>'+(t.points.length-1)+'</b><span>จุดจอดนอก รพ.</span></div><div><b>'+dists.length+'</b><span>เขตที่ดูแล</span></div></div>';
+  const ul=document.getElementById('pts');ul.innerHTML='';
+  t.points.forEach((p,i)=>{const li=document.createElement('li');li.className='pt';
+    li.innerHTML='<div class="top"><span class="no'+(p.isBase?' base':'')+'" style="background:'+t.color+'">'+(p.isBase?'H':i)+'</span><div><div class="nm">'+p.name+'</div><div class="kind">'+(p.isBase?'โรงพยาบาลฐานของทีม':'จุดจอดเตรียมพร้อม')+'</div></div></div>'+
+      '<div class="addr">'+addr(p)+'<small>พิกัด '+p.lat.toFixed(5)+', '+p.lng.toFixed(5)+'</small></div>'+
+      '<div class="acts"><button type="button" data-a="map">ดูบนแผนที่ใหญ่</button><a href="'+gmaps(p)+'" target="_blank" rel="noopener">Google Maps ↗</a><button type="button" data-a="copy">คัดลอกพิกัด</button></div>';
+    li.querySelector('[data-a="map"]').onclick=()=>{showView('map');D.teams.forEach(x=>x.on=true);refresh();setTimeout(()=>{map.invalidateSize();map.flyTo([p.lat,p.lng],14,{duration:.5});setTimeout(()=>p.marker&&p.marker.openPopup(),550);},50);};
+    const cb=li.querySelector('[data-a="copy"]');cb.onclick=()=>{const txt=p.lat+', '+p.lng;
+      const done=()=>{cb.textContent='คัดลอกแล้ว';setTimeout(()=>cb.textContent='คัดลอกพิกัด',1500);};
+      try{navigator.clipboard.writeText(txt).then(done,()=>{cb.textContent=txt;});}catch(e){cb.textContent=txt;}};
+    li.querySelector('.nm').style.cursor='pointer';li.querySelector('.nm').onclick=()=>{mini.flyTo([p.lat,p.lng],14,{duration:.4});};
+    ul.appendChild(li);});
+  if(!mini){mini=L.map('miniMap',{zoomControl:true,attributionControl:false,scrollWheelZoom:false});
+    if(map.hasLayer(tiles)) L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:19}).addTo(mini);
+    L.geoJSON(D.districts,{interactive:false,style:{color:css('--border-map'),weight:1,fillColor:css('--land'),fillOpacity:.15}}).addTo(mini);
+    miniLayer=L.layerGroup().addTo(mini);}
+  mini.invalidateSize();miniLayer.clearLayers();
+  t.points.forEach((p,i)=>{const html='<div class="base-ico" style="width:24px;height:24px;background:'+t.color+';border-radius:'+(p.isBase?'6px':'50%')+'">'+(p.isBase?'H':i)+'</div>';
+    L.marker([p.lat,p.lng],{icon:L.divIcon({className:'',html,iconSize:[24,24],iconAnchor:[12,12]}),title:p.name}).bindTooltip(p.name,{direction:'top',offset:[0,-12]}).addTo(miniLayer);});
+  const b=L.latLngBounds(t.points.map(p=>[p.lat,p.lng]));
+  t.points.length>1?mini.fitBounds(b.pad(.25),{maxZoom:14}):mini.setView(b.getCenter(),14);
+}
+function showView(v){const isList=v==='list';
+  document.getElementById('viewList').hidden=!isList;document.getElementById('viewMap').style.display=isList?'none':'flex';
+  document.getElementById('tabList').setAttribute('aria-selected',String(isList));document.getElementById('tabMap').setAttribute('aria-selected',String(!isList));
+  if(isList)renderDetail();else setTimeout(()=>map.invalidateSize(),30);
+  try{history.replaceState(null,'',isList?'#hospitals':location.pathname+location.search);}catch(e){}}
+document.getElementById('tabMap').onclick=()=>showView('map');
+document.getElementById('tabList').onclick=()=>showView('list');
+if(location.hash==='#hospitals')showView('list');
 })();
 </script>
