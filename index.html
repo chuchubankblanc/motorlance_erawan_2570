@@ -816,8 +816,8 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 1
     </div>
     <div class="stats" aria-label="สรุปตัวเลข">
       <div class="stat"><b id="sTeams">–</b><span>ทีม (โรงพยาบาล)</span></div>
-      <div class="stat hot"><b id="sPoints">–</b><span>จุดจอดเตรียมพร้อม</span></div>
-      <div class="stat"><b id="sDist">–</b><span>เขตที่มีจุดจอด</span></div>
+      <div class="stat hot"><b id="sPoints">–</b><span>จุด Motorlance</span></div>
+      <div class="stat"><b id="sDist">–</b><span>เขตที่มี Motorlance</span></div>
       <div class="stat"><b id="sCover">–</b><span>พื้นที่ กทม. ในระยะ 3 กม.</span></div>
     </div>
   </header>
@@ -843,7 +843,7 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 1
   <div class="explain">
     <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="var(--calm)"/><rect x="11" y="10" width="2" height="7" rx="1" fill="var(--surface)"/><circle cx="12" cy="7" r="1.3" fill="var(--surface)"/></svg>
     <p><b>Motorlance คืออะไร</b> — มอเตอร์ไซค์ของโรงพยาบาลในสังกัด กทม. ที่มีเจ้าหน้าที่กู้ชีพพร้อมอุปกรณ์ช่วยชีวิตเบื้องต้น ซอกแซกฝ่ารถติดไปถึงผู้ป่วยก่อน เพื่อเริ่มช่วยชีวิตระหว่างรอรถพยาบาล
-      แต่ละทีมมีโรงพยาบาลเป็น <b>ฐาน</b> และออกไปจอดรอตาม <b>จุดจอดเตรียมพร้อม</b> ที่กระจายอยู่ทั่วเมือง
+      แต่ละทีมมีโรงพยาบาลเป็น <b>ฐาน</b> และกระจายอยู่ตามจุดต่าง ๆ ทั่วเมือง
       <b>วิธีใช้:</b> แตะตำแหน่งใดก็ได้บนแผนที่ (เช่น จุดเกิดเหตุ) ระบบจะบอกว่ามี Motorlance อยู่ในระยะ 3 กม. กี่คัน และคันไหนใกล้ที่สุด</p>
   </div>
 
@@ -872,8 +872,8 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 1
         <h2>ทีม Motorlance <small>แตะเพื่อซ่อน/แสดง</small></h2>
         <div class="legend">
           <span><i style="width:13px;height:13px;border-radius:3px;background:var(--muted)"></i>โรงพยาบาล (ฐาน)</span>
-          <span><i style="width:11px;height:11px;border-radius:50%;background:var(--muted)"></i>จุดจอดเตรียมพร้อม</span>
-          <span><i style="width:13px;height:11px;background:var(--land-covered);border:1px solid var(--border-map)"></i>เขตที่มีจุดจอด</span>
+          <span><i style="width:11px;height:11px;border-radius:50%;background:var(--muted)"></i>จุด Motorlance</span>
+          <span><i style="width:13px;height:11px;background:var(--land-covered);border:1px solid var(--border-map)"></i>เขตที่มี Motorlance</span>
         </div>
         <div class="rowbtns"><button class="link" id="allOn" type="button">แสดงทุกทีม</button><button class="link" id="allOff" type="button">ซ่อนทุกทีม</button></div>
         <ul class="teams" id="teams"></ul>
@@ -946,7 +946,7 @@ map.fitBounds(bkkBounds,{padding:[10,10]});
 const ptLayer = L.layerGroup().addTo(map), radLayer = L.layerGroup().addTo(map), incLayer = L.layerGroup().addTo(map);
 const gmaps = p => 'https://www.google.com/maps/dir/?api=1&destination='+p.lat+','+p.lng;
 function popupHtml(p,extra){return '<div class="pop"><b>'+p.name+'</b><span class="tag" style="background:'+p.team.color+'">ทีม MTL '+p.team.name+'</span><br>'+
-  (p.isBase?'โรงพยาบาลฐานของทีม':'จุดจอดเตรียมพร้อม')+' · ฐาน: '+p.team.hospital+'<br>เขต'+(p.district||'– (นอกเขต กทม.)')+(extra||'')+
+  (p.isBase?'โรงพยาบาลฐานของทีม · ':'')+'ฐาน: '+p.team.hospital+'<br>เขต'+(p.district||'– (นอกเขต กทม.)')+(extra||'')+
   '<br><a href="'+gmaps(p)+'" target="_blank" rel="noopener">นำทางด้วย Google Maps ↗</a></div>';}
 function drawPoints(){
   ptLayer.clearLayers();
@@ -1001,7 +1001,7 @@ function renderResult(){
   const show = inR.length? inR.slice(0,6) : list.slice(0,3);
   show.forEach((x,i)=>{html+='<div class="near '+(x.d<=R_KM?'in':'out')+'" data-i="'+ALL.indexOf(x.p)+'" tabindex="0" role="button">'+
     '<span class="rank" style="background:'+x.p.team.color+'">'+(i+1)+'</span><span class="nm">'+x.p.name+'</span>'+
-    '<span class="km">'+x.d.toFixed(1)+'<small>กม.</small></span><span class="sub">ทีม '+x.p.team.name+' · '+(x.p.isBase?'โรงพยาบาลฐาน':'จุดจอด')+'</span></div>';});
+    '<span class="km">'+x.d.toFixed(1)+'<small>กม.</small></span><span class="sub">ทีม '+x.p.team.name+(x.p.isBase?' · โรงพยาบาลฐาน':'')+'</span></div>';});
   if(inR.length>6) html+='<p class="empty">และอีก '+(inR.length-6)+' จุดในระยะ 3 กม.</p>';
   box.innerHTML=html;
   box.querySelectorAll('.near').forEach(el=>{const go=()=>{const p=ALL[+el.dataset.i];map.flyTo([p.lat,p.lng],Math.max(map.getZoom(),13),{duration:.5});setTimeout(()=>p.marker&&p.marker.openPopup(),550);};
@@ -1050,10 +1050,10 @@ function renderDetail(){
   const dists=[...new Set(t.points.map(p=>p.district).filter(Boolean))];
   const dh=document.getElementById('dhead');dh.style.setProperty('--team',t.color);
   dh.innerHTML='<div><div class="sub">โรงพยาบาลต้นสังกัด · ทีม MTL '+t.name+'</div><h2>'+t.hospital+'</h2></div>'+
-    '<div class="facts"><div><b>'+t.points.length+'</b><span>จุดทั้งหมด</span></div><div><b>'+(t.points.length-1)+'</b><span>จุดจอดนอก รพ.</span></div><div><b>'+dists.length+'</b><span>เขตที่ดูแล</span></div></div>';
+    '<div class="facts"><div><b>'+t.points.length+'</b><span>จุดทั้งหมด</span></div><div><b>'+(t.points.length-1)+'</b><span>จุดนอก รพ.</span></div><div><b>'+dists.length+'</b><span>เขตที่ดูแล</span></div></div>';
   const ul=document.getElementById('pts');ul.innerHTML='';
   t.points.forEach((p,i)=>{const li=document.createElement('li');li.className='pt';
-    li.innerHTML='<div class="top"><span class="no'+(p.isBase?' base':'')+'" style="background:'+t.color+'">'+(p.isBase?'H':i)+'</span><div><div class="nm">'+p.name+'</div><div class="kind">'+(p.isBase?'โรงพยาบาลฐานของทีม':'จุดจอดเตรียมพร้อม')+'</div></div></div>'+
+    li.innerHTML='<div class="top"><span class="no'+(p.isBase?' base':'')+'" style="background:'+t.color+'">'+(p.isBase?'H':i)+'</span><div><div class="nm">'+p.name+'</div>'+(p.isBase?'<div class="kind">โรงพยาบาลฐานของทีม</div>':'')+'</div></div>'+
       '<div class="addr">'+addr(p)+'<small>พิกัด '+p.lat.toFixed(5)+', '+p.lng.toFixed(5)+'</small></div>'+
       '<div class="acts"><button type="button" data-a="map">ดูบนแผนที่ใหญ่</button><a href="'+gmaps(p)+'" target="_blank" rel="noopener">Google Maps ↗</a><button type="button" data-a="copy">คัดลอกพิกัด</button></div>';
     li.querySelector('[data-a="map"]').onclick=()=>{showView('map');D.teams.forEach(x=>x.on=true);refresh();setTimeout(()=>{map.invalidateSize();map.flyTo([p.lat,p.lng],14,{duration:.5});setTimeout(()=>p.marker&&p.marker.openPopup(),550);},50);};
