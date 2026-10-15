@@ -1056,7 +1056,7 @@ function renderDetail(){
     '<div class="facts"><div><b>'+t.points.length+'</b><span>จุดทั้งหมด</span></div><div><b>'+(t.points.length-1)+'</b><span>จุดนอก รพ.</span></div><div><b>'+dists.length+'</b><span>เขตที่ดูแล</span></div></div>';
   const ul=document.getElementById('pts');ul.innerHTML='';
   t.points.forEach((p,i)=>{const li=document.createElement('li');li.className='pt';
-    li.innerHTML='<div class="top"><span class="no'+(p.isBase?' base':'')+'" style="background:'+t.color+'">'+(p.isBase?'H':i)+'</span><div><div class="nm">'+p.name+'</div>'+(p.isBase?'<div class="kind">โรงพยาบาลฐานของทีม</div>':'')+'</div></div>'+
+    li.innerHTML='<div class="top"><span class="no'+(p.isBase?' base':'')+'" style="background:'+t.color+'">'+(i+1)+'</span><div><div class="nm">'+p.name+'</div>'+(p.isBase?'<div class="kind">โรงพยาบาลฐานของทีม</div>':'')+'</div></div>'+
       '<div class="addr">'+addr(p)+'<small>พิกัด '+p.lat.toFixed(5)+', '+p.lng.toFixed(5)+'</small></div>'+
       '<div class="acts"><button type="button" data-a="map">ดูบนแผนที่ใหญ่</button><a href="'+gmaps(p)+'" target="_blank" rel="noopener">Google Maps ↗</a><button type="button" data-a="copy">คัดลอกพิกัด</button></div>';
     li.querySelector('[data-a="map"]').onclick=()=>{showView('map');D.teams.forEach(x=>x.on=true);refresh();setTimeout(()=>{map.invalidateSize();map.flyTo([p.lat,p.lng],14,{duration:.5});setTimeout(()=>p.marker&&p.marker.openPopup(),550);},50);};
@@ -1070,7 +1070,7 @@ function renderDetail(){
     L.geoJSON(D.districts,{interactive:false,style:{color:css('--border-map'),weight:1,fillColor:css('--land'),fillOpacity:.15}}).addTo(mini);
     miniLayer=L.layerGroup().addTo(mini);}
   mini.invalidateSize();miniLayer.clearLayers();
-  t.points.forEach((p,i)=>{const html='<div class="base-ico" style="width:24px;height:24px;background:'+t.color+';border-radius:'+(p.isBase?'6px':'50%')+'">'+(p.isBase?'H':i)+'</div>';
+  t.points.forEach((p,i)=>{const html='<div class="base-ico" style="width:24px;height:24px;background:'+t.color+';border-radius:'+(p.isBase?'6px':'50%')+'">'+(i+1)+'</div>';
     L.marker([p.lat,p.lng],{icon:L.divIcon({className:'',html,iconSize:[24,24],iconAnchor:[12,12]}),title:p.name}).bindTooltip(p.name,{direction:'top',offset:[0,-12]}).addTo(miniLayer);});
   const b=L.latLngBounds(t.points.map(p=>[p.lat,p.lng]));
   t.points.length>1?mini.fitBounds(b.pad(.25),{maxZoom:14}):mini.setView(b.getCenter(),14);
