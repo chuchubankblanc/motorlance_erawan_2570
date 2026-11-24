@@ -138,6 +138,7 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 1
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--loy-soft:#1e1c36;--loy-soft-2:#2a2650;--loy-water:#172038;--loy-line:#46507e;--loy-ink:#d9d4ff}}
 :root[data-theme="dark"]{--loy-soft:#1e1c36;--loy-soft-2:#2a2650;--loy-water:#172038;--loy-line:#46507e;--loy-ink:#d9d4ff}
 .tab.loy[aria-selected="true"]{background:linear-gradient(120deg,var(--loy-dusk),var(--loy-lotus));color:#fff}
+body.loy-mode .wrap>header{display:none}
 #viewLoy{display:flex;flex-direction:column;gap:14px}
 #viewLoy[hidden]{display:none}
 .loy-hero{position:relative;overflow:hidden;border-radius:14px;color:#fff;padding:22px 24px 30px;
@@ -670,6 +671,8 @@ function showView(v){
   Object.entries(VIEWS).forEach(([k,[view,tab]])=>{const on=k===v;const el=document.getElementById(view);
     if(k==='map')el.style.display=on?'flex':'none';else el.hidden=!on;
     document.getElementById(tab).setAttribute('aria-selected',String(on));});
+  // แท็บลอยกระทงมีหัวข้อของตัวเอง จึงซ่อนหัวเว็บ Motorlance
+  document.body.classList.toggle('loy-mode',v==='loy');
   if(v==='list')renderDetail();else if(v==='loy')initLoy();else setTimeout(()=>map.invalidateSize(),30);
   try{history.replaceState(null,'',VIEWS[v][2]||location.pathname+location.search);}catch(e){}}
 document.getElementById('tabMap').onclick=()=>showView('map');
