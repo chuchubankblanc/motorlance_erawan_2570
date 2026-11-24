@@ -712,11 +712,11 @@ function showView(v){
   // แท็บลอยกระทงมีหัวข้อของตัวเอง จึงซ่อนหัวเว็บ Motorlance
   document.body.classList.toggle('loy-mode',v==='loy');
   if(v==='list')renderDetail();else if(v==='loy')initLoy();else setTimeout(()=>map.invalidateSize(),30);
-  try{history.replaceState(null,'',VIEWS[v][2]||location.pathname+location.search);}catch(e){}}
+  try{history.replaceState(null,'',location.pathname+location.search+VIEWS[v][2]);}catch(e){}}
 document.getElementById('tabMap').onclick=()=>showView('map');
 document.getElementById('tabList').onclick=()=>showView('list');
 document.getElementById('tabLoy').onclick=()=>showView('loy');
 if(location.hash==='#hospitals')showView('list');
-if(location.hash==='#loykrathong')showView('loy');
+if(location.hash==='#loykrathong'||window.START_VIEW==='loy')showView('loy');
 })();
 </script>
