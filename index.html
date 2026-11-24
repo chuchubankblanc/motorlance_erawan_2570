@@ -856,6 +856,16 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 1
 .loy-row .at em{font-style:normal;color:var(--signal)}
 .loy-n{grid-row:span 2;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;color:#fff;font:700 13px var(--font-display);background:var(--loy-amb);box-shadow:0 0 0 3px rgba(226,61,75,.18)}
 .loy-n.als{background:var(--loy-als);box-shadow:0 0 0 3px rgba(109,79,216,.2)}
+.loy-team{background:var(--loy-soft);border-radius:10px;padding:8px 10px;display:flex;flex-direction:column;gap:6px}
+.loy-team-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.loy-team-h .nm{font:600 15.5px/1.3 var(--font-display);color:var(--loy-ink)}
+.loy-team-h .loy-n{grid-row:auto}
+.loy-note{font:600 12px var(--font-body);color:#fff;background:var(--loy-mtl);border-radius:999px;padding:1px 9px}
+.loy-pts{display:flex;flex-wrap:wrap;gap:6px;padding-left:38px}
+.loy-pt{font:500 13px var(--font-body);color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px 11px;cursor:pointer;text-align:left}
+.loy-pt:hover{border-color:var(--loy-mtl)}
+.loy-pt:focus-visible{outline:3px solid var(--loy-dusk);outline-offset:2px}
+.loy-pt em{font-style:normal;color:var(--signal)}
 .loy-n.mtl{background:var(--loy-mtl);box-shadow:0 0 0 3px rgba(240,138,18,.2)}
 @media (max-width:900px){.loy-main .mapbox{position:relative;top:0;height:68vh}}
 @media (max-width:600px){.loy-hero{padding:18px 16px 30px}.loy-hero .inner{max-width:100%;padding-right:44px}.loy-hero .moon{width:38px;height:38px;right:14px;top:14px;box-shadow:0 0 0 8px rgba(255,211,107,.14),0 0 30px 6px rgba(255,211,107,.45)}.loy-hero .kt{right:12px;width:44px}}
@@ -899,7 +909,7 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 1
       <div class="inner">
         <span class="eyebrow">งานลอยกระทง · วันอังคารที่ 24 พฤศจิกายน 2569</span>
         <h2 class="loy-title">ศูนย์เอราวัณจัดรถพยาบาลเข้า <em>standby</em> ตามจุดจอดดังนี้</h2>
-        <div class="loy-chips"><span class="loy-chip amb"><b data-count="amb">8</b>จุดรถพยาบาล standby</span><span class="loy-chip als"><b data-count="als">5</b>รถ ALS โรงพยาบาล</span><span class="loy-chip mtl"><b data-count="mtl">2</b>Motorlance</span></div>
+        <div class="loy-chips"><span class="loy-chip amb"><b data-count="amb">8</b>จุดรถพยาบาล standby</span><span class="loy-chip als"><b data-count="als">5</b>รถ ALS โรงพยาบาล</span><span class="loy-chip mtl"><b data-count="mtl">8</b>ทีม Motorlance</span></div>
       </div>
     </div>
     <div class="main loy-main">
@@ -917,7 +927,7 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 1
           <ul class="loy-list" id="loyListAls"></ul>
         </section>
         <section>
-          <div class="loy-sec-h mtl"><span>Motorlance เวรบ่าย</span><small><b data-count="mtl">–</b> คัน</small></div>
+          <div class="loy-sec-h mtl"><span>Motorlance เวรบ่าย</span><small><b data-count="mtl">–</b> ทีม · <b data-count="mtlpts">–</b> จุด</small></div>
           <ul class="loy-list" id="loyListMtl"></ul>
         </section>
       </aside>
@@ -1182,9 +1192,16 @@ const LOY = {
     {name:'จุดจอดศบฉ.', at:'ถนนทรงวาด', lat:13.7393, lng:100.5080, approx:false},
     {name:'จุดจอดอุโมงค์พระลาน', at:'วัดภูเขาทอง', lat:13.7538, lng:100.5066, approx:false}
   ],
+  // Motorlance ที่ available เวรบ่ายวันลอยกระทง: 1 ทีม อาจประจำได้หลายจุด
   mtl: [
-    {name:'MTL ทุ่งครุ', at:'จุดจอดทุ่งครุ (วัดทุ่งครุ)', lat:13.619148811715029, lng:100.51052372421509, approx:false},
-    {name:'MTL บางนา', at:'ไบเทคบางนา', lat:13.669621685771066, lng:100.6101542953801, approx:false}
+    {name:'MTL วรจักร', pts:[{at:'จุดรพ.กลาง', lat:13.74717627219551, lng:100.5093483091106},{at:'จุดรพ.บุษราคัม', lat:13.889737219263488, lng:100.65719722606933}]},
+    {name:'MTL ตากสิน', pts:[{at:'จุดตลาดพลู', lat:13.722506025609492, lng:100.47838426839537},{at:'จุดรพ.มิตรประชา', lat:13.712245855507414, lng:100.43191893955947}]},
+    {name:'MTL เจริญกรุง', pts:[{at:'จุดสดพ.ทุ่งครุ', lat:13.619148811715029, lng:100.51052372421509}]},
+    {name:'MTL บางนา กทม.', note:'ถึง 21.00 น.', pts:[{at:'จุดไบเทค บางนา', lat:13.669621685771066, lng:100.6101542953801}]},
+    {name:'MTL รัตนประชารักษ์', pts:[{at:'จุดรพ.รัตนประชารักษ์', lat:13.91000512810429, lng:100.75298972421947}]},
+    {name:'MTL เลียบวารี', pts:[{at:'จุดรพ.เวชการุณย์รัศมิ์', lat:13.86126162922206, lng:100.85792925681827},{at:'จุดคู้คลองสิบ 14', lat:13.902193216902171, lng:100.81084033922498}]},
+    {name:'MTL ราชพิพัฒน์', pts:[{at:'จุดรพ.ราชพิพัฒน์', lat:13.73101781992869, lng:100.3670922242168},{at:'จุดสวนสาธารณะพุทธมณฑลสายสอง', lat:13.7745, lng:100.3680, approx:true}]},
+    {name:'MTL นคราภิบาล', pts:[{at:'จุดสถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง', lat:13.7299, lng:100.7782, approx:true}]}
   ],
   // รถ ALS ของโรงพยาบาล ประจำจุดจัดงาน (name = จุดงาน, at = หน่วย)
   als: [
@@ -1200,7 +1217,7 @@ const LOY_KIND = {
   als:{list:'loyListAls', tag:'รถ ALS โรงพยาบาล', color:'--loy-als', z:550, sub:p=>p.at},
   mtl:{list:'loyListMtl', tag:'Motorlance เวรบ่าย', color:'--loy-mtl', z:600, sub:p=>'ที่ '+p.at}
 };
-const LOY_ALL = () => [...LOY.amb,...LOY.als,...LOY.mtl];
+const LOY_ALL = () => [...LOY.amb,...LOY.als,...LOY.mtl.flatMap(t=>t.pts)];
 const ICON_AMB = '<svg viewBox="0 0 40 28" width="40" height="28" aria-hidden="true"><path d="M3 6h21v15H3z" fill="#fff" stroke="#e23d4b" stroke-width="2"/><path d="M24 10h7l5 6v5H24z" fill="#fff" stroke="#e23d4b" stroke-width="2"/><path d="M27 12h4l3 4h-7z" fill="#90caf9"/><rect x="11.5" y="8.5" width="4" height="10" fill="#e23d4b"/><rect x="8.5" y="11.5" width="10" height="4" fill="#e23d4b"/><rect x="9" y="2.5" width="6" height="3" rx="1" fill="#1e88e5"/><circle cx="10" cy="22" r="3.2" fill="#263238" stroke="#fff" stroke-width="1.5"/><circle cx="30" cy="22" r="3.2" fill="#263238" stroke="#fff" stroke-width="1.5"/></svg>';
 const ICON_MTL = '<svg viewBox="0 0 40 28" width="40" height="28" aria-hidden="true"><circle cx="9" cy="20" r="5.5" fill="none" stroke="#263238" stroke-width="2.6"/><circle cx="31" cy="20" r="5.5" fill="none" stroke="#263238" stroke-width="2.6"/><path d="M9 20l6-9h9l4 9" fill="none" stroke="#263238" stroke-width="2.4" stroke-linejoin="round"/><path d="M14 12h12l3 5H16z" fill="#f08a12"/><rect x="16" y="5" width="9" height="7" rx="1.5" fill="#fff" stroke="#f08a12" stroke-width="1.6"/><rect x="19.6" y="6" width="1.8" height="5" fill="#e23d4b"/><rect x="18" y="7.6" width="5" height="1.8" fill="#e23d4b"/><path d="M26 11l4-4h3" fill="none" stroke="#263238" stroke-width="2.2" stroke-linecap="round"/><circle cx="34" cy="6" r="1.6" fill="#1e88e5"/></svg>';
 const ICON_ALS = ICON_AMB.replace(/#e23d4b/g,'#6d4fd8');
@@ -1224,7 +1241,22 @@ function initLoy(){
   };
   LOY.amb.forEach((p,i)=>add(p,'amb',i+1));
   LOY.als.forEach((p,i)=>add(p,'als',i+1));
-  LOY.mtl.forEach((p,i)=>add(p,'mtl',i+1));
+  LOY.mtl.forEach((t,i)=>{
+    const n=i+1, li=document.createElement('li');
+    li.className='loy-team';
+    li.innerHTML='<div class="loy-team-h"><span class="loy-n mtl">'+n+'</span><span class="nm">'+t.name+'</span>'+(t.note?'<span class="loy-note">'+t.note+'</span>':'')+'</div><div class="loy-pts"></div>';
+    const box=li.querySelector('.loy-pts');
+    t.pts.forEach(p=>{
+      const m=L.marker([p.lat,p.lng],{icon:loyIcon('mtl',n),title:t.name+' · '+p.at,zIndexOffset:LOY_KIND.mtl.z})
+        .bindPopup('<div class="pop"><b>'+t.name+'</b><span class="tag" style="background:'+css('--loy-mtl')+'">Motorlance เวรบ่าย</span><br>ประจำ '+p.at+(t.note?'<br>เวลา: '+t.note:'')+(p.approx?'<br><i>พิกัดโดยประมาณ</i>':'')+'<br><a href="'+gmaps(p)+'" target="_blank" rel="noopener">นำทางด้วย Google Maps ↗</a></div>').addTo(loyMap);
+      loyMarkers.push(m);
+      const b=document.createElement('button');b.type='button';b.className='loy-pt';
+      b.innerHTML=p.at+(p.approx?' <em>· พิกัดโดยประมาณ</em>':'');
+      b.onclick=()=>{loyMap.flyTo([p.lat,p.lng],15,{duration:.5});setTimeout(()=>m.openPopup(),550);};
+      box.appendChild(b);
+    });
+    document.getElementById('loyListMtl').appendChild(li);
+  });
   const sync=()=>document.getElementById('loyMap').classList.toggle('loy-far',loyMap.getZoom()<12.5);
   loyMap.on('zoomend',sync);
   const fitAll=()=>{loyMap.invalidateSize();loyMap.fitBounds(L.latLngBounds(LOY_ALL().map(p=>[p.lat,p.lng])).pad(.12));};
@@ -1238,6 +1270,7 @@ document.getElementById('loyFit').onclick=()=>loyMap&&loyMap.flyToBounds(L.latLn
 // โซนเกาะรัตนโกสินทร์ — จุดหนาแน่น ไอคอนซ้อนกันเมื่อดูทั้งเมือง
 document.getElementById('loyOld').onclick=()=>loyMap&&loyMap.flyToBounds([[13.736,100.488],[13.776,100.514]],{duration:.6});
 ['amb','als','mtl'].forEach(k=>document.querySelectorAll('[data-count="'+k+'"]').forEach(e=>e.textContent=LOY[k].length));
+document.querySelectorAll('[data-count="mtlpts"]').forEach(e=>e.textContent=LOY.mtl.reduce((a,t)=>a+t.pts.length,0));
 
 const VIEWS={map:['viewMap','tabMap',''],list:['viewList','tabList','#hospitals'],loy:['viewLoy','tabLoy','#loykrathong']};
 function showView(v){
