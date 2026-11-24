@@ -134,7 +134,7 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 1
 .dnote{font-size:12.5px;color:var(--muted);padding:0 20px 16px;margin:0}
 /* Loy Krathong standby — festival night: indigo sky, moon gold, river teal, lotus pink */
 :root{--loy-night:#1b1f4b;--loy-dusk:#45307f;--loy-river:#0e7490;--loy-moon:#ffd36b;--loy-lotus:#e8557a;
-  --loy-amb:#e23d4b;--loy-als:#6d4fd8;--loy-mtl:#f08a12;--loy-soft:#f5f2ff;--loy-soft-2:#ebe5ff;--loy-water:#e9effc;--loy-line:#9aa6d6;--loy-ink:#2a2560}
+  --loy-amb:#e23d4b;--hydro-a:#0ea5e9;--hydro-b:#14b8a6;--loy-als:#6d4fd8;--loy-mtl:#f08a12;--loy-soft:#f5f2ff;--loy-soft-2:#ebe5ff;--loy-water:#e9effc;--loy-line:#9aa6d6;--loy-ink:#2a2560}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--loy-soft:#1e1c36;--loy-soft-2:#2a2650;--loy-water:#172038;--loy-line:#46507e;--loy-ink:#d9d4ff}}
 :root[data-theme="dark"]{--loy-soft:#1e1c36;--loy-soft-2:#2a2650;--loy-water:#172038;--loy-line:#46507e;--loy-ink:#d9d4ff}
 .tab.loy[aria-selected="true"]{background:linear-gradient(120deg,var(--loy-dusk),var(--loy-lotus));color:#fff}
@@ -157,6 +157,7 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 1
 .loy-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
 .loy-chip{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:5px 12px 5px 6px;font-size:13.5px;backdrop-filter:blur(2px)}
 .loy-chip b{font:700 16px/1 var(--font-display);min-width:26px;height:26px;border-radius:13px;display:grid;place-items:center;color:#fff}
+.loy-chip.hydro b{background:linear-gradient(120deg,#0ea5e9,#14b8a6);padding:0 2px}
 .loy-chip.amb b{background:var(--loy-amb)}.loy-chip.als b{background:var(--loy-als)}.loy-chip.mtl b{background:var(--loy-mtl)}.loy-chip.time b{background:var(--loy-river);font-size:13px;padding:0 6px}
 .loy-main{align-items:start;min-height:0}
 .loy-main .mapbox{border-color:var(--loy-line);background:var(--loy-water);height:clamp(520px,78vh,820px);position:sticky;top:max(12px,env(safe-area-inset-top,0px))}
@@ -168,6 +169,17 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 1
 .loy-ico svg{width:38px;height:26px}
 .loy-ico span{position:absolute;top:-10px;right:-10px;min-width:21px;height:21px;border-radius:11px;background:var(--loy-amb);color:#fff;font:700 12px/21px var(--font-display);text-align:center;border:2px solid #fff}
 .loy-ico.mtl span{background:var(--loy-mtl)}
+.loy-ico.hydro{border-color:var(--hc);box-shadow:0 0 0 4px rgba(14,165,233,.28),0 3px 8px rgba(0,0,0,.3)}
+.loy-n.hydro{font-size:14px}
+.bridge-label{background:#1b1f4b;color:#fff;border:0;border-radius:6px;font:600 12px var(--font-body);padding:2px 8px;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+.bridge-label::before{display:none}
+.loy-far .bridge-label{display:none}
+.seg{display:inline-flex}
+.seg .btn{border-radius:0}
+.seg .btn:first-child{border-radius:999px 0 0 999px}
+.seg .btn:last-child{border-radius:0 999px 999px 0;margin-left:-1px}
+.seg .btn[aria-pressed="true"]{background:var(--loy-dusk);border-color:var(--loy-dusk);color:#fff}
+#loyRiver{background:var(--surface);color:var(--loy-ink);border-color:var(--loy-line)}
 .loy-ico.als{border-color:var(--loy-als);box-shadow:0 0 0 4px rgba(109,79,216,.25),0 3px 8px rgba(0,0,0,.3)}
 .loy-ico.als span{background:var(--loy-als)}
 .loy-ico{transition:transform .15s}
@@ -178,6 +190,7 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 1
 .loy-sec-h{display:flex;align-items:center;justify-content:space-between;gap:8px;border-radius:10px;padding:9px 12px;color:#fff;font:600 16px/1.2 var(--font-display)}
 .loy-sec-h.amb{background:linear-gradient(110deg,#c2283a,var(--loy-amb))}
 .loy-sec-h.als{background:linear-gradient(110deg,#5536c4,var(--loy-als))}
+.loy-sec-h.hydro{background:linear-gradient(110deg,#0369a1,#0ea5e9 55%,#14b8a6)}
 .loy-sec-h.mtl{background:linear-gradient(110deg,#d9700a,var(--loy-mtl))}
 .loy-sec-h small{font:500 13px var(--font-body);background:rgba(255,255,255,.22);border-radius:999px;padding:2px 10px}
 .loy-sec-h small b{font:700 15px var(--font-display)}
@@ -241,13 +254,13 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 1
       <div class="inner">
         <span class="eyebrow">งานลอยกระทง · วันอังคารที่ 24 พฤศจิกายน 2569</span>
         <h2 class="loy-title">ศูนย์เอราวัณจัดรถพยาบาลเข้า <em>standby</em> ตามจุดจอดดังนี้</h2>
-        <div class="loy-chips"><span class="loy-chip amb"><b data-count="amb">8</b>จุดรถพยาบาล standby</span><span class="loy-chip als"><b data-count="als">5</b>รถ ALS โรงพยาบาล</span><span class="loy-chip mtl"><b data-count="mtl">8</b>ทีม Motorlance</span></div>
+        <div class="loy-chips"><span class="loy-chip amb"><b data-count="amb">8</b>จุดรถพยาบาล standby</span><span class="loy-chip als"><b data-count="als">5</b>รถ ALS โรงพยาบาล</span><span class="loy-chip mtl"><b data-count="mtl">8</b>ทีม Motorlance</span><span class="loy-chip hydro"><b>2</b>HYDROLANCE</span></div>
       </div>
     </div>
     <div class="main loy-main">
       <div class="mapbox">
         <div id="loyMap" role="application" aria-label="แผนที่กรุงเทพมหานคร จุด standby งานลอยกระทง"></div>
-        <div class="toolbar"><button class="btn" id="loyFit" type="button">ดูทุกจุด</button><button class="btn" id="loyOld" type="button">ซูมโซนเกาะรัตนโกสินทร์</button></div>
+        <div class="toolbar"><span class="seg" role="group" aria-label="พื้นหลังแผนที่"><button class="btn" data-base="sat" aria-pressed="true" type="button">ดาวเทียม</button><button class="btn" data-base="street" aria-pressed="false" type="button">แผนที่ถนน</button></span><button class="btn" id="loyFit" type="button">ดูทุกจุด</button><button class="btn" id="loyRiver" type="button">ซูมแม่น้ำเจ้าพระยา</button><button class="btn" id="loyOld" type="button">ซูมโซนเกาะรัตนโกสินทร์</button></div>
       </div>
       <aside class="panel loy-panel">
         <section>
@@ -257,6 +270,10 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 1
         <section>
           <div class="loy-sec-h als"><span>รถ ALS โรงพยาบาล ประจำจุดงาน</span><small><b data-count="als">–</b> คัน</small></div>
           <ul class="loy-list" id="loyListAls"></ul>
+        </section>
+        <section>
+          <div class="loy-sec-h hydro"><span>HYDROLANCE เรือการแพทย์ฉุกเฉิน</span><small><b>2</b> เขตลำน้ำ</small></div>
+          <ul class="loy-list" id="loyListHydro"></ul>
         </section>
         <section>
           <div class="loy-sec-h mtl"><span>Motorlance เวรบ่าย</span><small><b data-count="mtl">–</b> ทีม · <b data-count="mtlpts">–</b> จุด</small></div>
@@ -548,18 +565,57 @@ const LOY_KIND = {
   als:{list:'loyListAls', tag:'รถ ALS โรงพยาบาล', color:'--loy-als', z:550, sub:p=>p.at},
   mtl:{list:'loyListMtl', tag:'Motorlance เวรบ่าย', color:'--loy-mtl', z:600, sub:p=>'ที่ '+p.at}
 };
+// แม่น้ำเจ้าพระยา: เส้นกึ่งกลางลำน้ำ ได้จากแนวเขตปกครองที่ลากตามกลางแม่น้ำ (เหนือ→ใต้)
+const RIVER = [[13.81314,100.51523],[13.81303,100.5154],[13.81291,100.51555],[13.81268,100.51582],[13.81233,100.5161],[13.81198,100.51633],[13.81093,100.51681],[13.81018,100.51711],[13.80991,100.51721],[13.80939,100.51734],[13.80916,100.51739],[13.80874,100.51746],[13.80847,100.51748],[13.80749,100.51756],[13.80672,100.5176],[13.80583,100.51766],[13.80496,100.51765],[13.80462,100.51762],[13.80398,100.51754],[13.80375,100.51751],[13.80291,100.51731],[13.80205,100.51705],[13.80122,100.51677],[13.80068,100.51658],[13.8005,100.51653],[13.80033,100.51649],[13.8003,100.51669],[13.79922,100.51622],[13.79822,100.51584],[13.79713,100.51528],[13.79557,100.51412],[13.79336,100.51225],[13.79121,100.51037],[13.78925,100.50839],[13.78917,100.50831],[13.78883,100.50797],[13.78638,100.50587],[13.78632,100.50582],[13.78623,100.50575],[13.78587,100.50544],[13.78373,100.50384],[13.78117,100.50257],[13.78104,100.50252],[13.78097,100.50249],[13.7753,100.50009],[13.77291,100.49904],[13.77139,100.49838],[13.76885,100.49723],[13.76824,100.49696],[13.76567,100.49493],[13.76481,100.49407],[13.76403,100.4933],[13.76191,100.491],[13.76183,100.49091],[13.7616,100.49072],[13.76147,100.49062],[13.76134,100.49053],[13.76121,100.49043],[13.76108,100.49033],[13.76095,100.49024],[13.76082,100.49015],[13.76069,100.49006],[13.76055,100.48997],[13.76042,100.48988],[13.76028,100.4898],[13.76012,100.48969],[13.76001,100.48963],[13.75987,100.48955],[13.75969,100.48944],[13.75959,100.48939],[13.75945,100.48931],[13.75931,100.48924],[13.75917,100.48916],[13.75903,100.48909],[13.75888,100.48902],[13.75874,100.48895],[13.75859,100.48889],[13.75845,100.48882],[13.7583,100.48876],[13.75815,100.48869],[13.758,100.48863],[13.75785,100.48858],[13.75771,100.48852],[13.75755,100.48846],[13.7574,100.48841],[13.75725,100.48836],[13.7571,100.48831],[13.75695,100.48826],[13.7568,100.48821],[13.75664,100.48817],[13.75649,100.48813],[13.75633,100.48808],[13.75618,100.48804],[13.75603,100.48801],[13.75587,100.48797],[13.75571,100.48794],[13.75556,100.4879],[13.7554,100.48787],[13.75524,100.48784],[13.75509,100.48782],[13.75493,100.48779],[13.75477,100.48777],[13.75461,100.48775],[13.75446,100.48773],[13.7543,100.48771],[13.75414,100.48769],[13.75398,100.48768],[13.75382,100.48766],[13.75366,100.48765],[13.7535,100.48764],[13.75335,100.48764],[13.75319,100.48763],[13.75303,100.48763],[13.75287,100.48762],[13.75271,100.48763],[13.75255,100.48763],[13.75239,100.48763],[13.75223,100.48764],[13.75207,100.48764],[13.75191,100.48765],[13.75175,100.48766],[13.7516,100.48767],[13.75144,100.48769],[13.75128,100.4877],[13.75112,100.48772],[13.75096,100.48774],[13.75081,100.48776],[13.75065,100.48779],[13.75049,100.48781],[13.75033,100.48784],[13.75018,100.48787],[13.75002,100.4879],[13.74986,100.48793],[13.74971,100.48796],[13.74955,100.488],[13.7494,100.48804],[13.74924,100.48808],[13.74909,100.48812],[13.74894,100.48816],[13.74878,100.4882],[13.74863,100.48825],[13.74848,100.4883],[13.74833,100.48835],[13.74824,100.48838],[13.74812,100.48842],[13.74803,100.48845],[13.74788,100.48851],[13.74773,100.48856],[13.74758,100.48862],[13.74743,100.48868],[13.74728,100.48874],[13.74714,100.48881],[13.74699,100.48887],[13.74685,100.48894],[13.7467,100.48901],[13.74656,100.48908],[13.74642,100.48915],[13.74627,100.48922],[13.74613,100.4893],[13.74599,100.48937],[13.74585,100.48945],[13.74571,100.48953],[13.74558,100.48961],[13.74544,100.48969],[13.7453,100.48978],[13.74517,100.48986],[13.74503,100.48995],[13.7449,100.49004],[13.74477,100.49013],[13.74464,100.49022],[13.74451,100.49032],[13.74438,100.49041],[13.74425,100.49051],[13.74412,100.4906],[13.744,100.4907],[13.74387,100.4908],[13.74375,100.49091],[13.74362,100.49101],[13.7435,100.49111],[13.74338,100.49122],[13.74326,100.49133],[13.74255,100.49188],[13.74232,100.49205],[13.74176,100.49248],[13.74085,100.49372],[13.74079,100.49381],[13.74067,100.49396],[13.73996,100.49577],[13.73929,100.4976],[13.73909,100.49815],[13.73896,100.49873],[13.7387,100.49992],[13.73867,100.50006],[13.73812,100.50253],[13.73776,100.50404],[13.73772,100.50421],[13.7377,100.50431],[13.73751,100.50509],[13.73746,100.5053],[13.73742,100.50545],[13.73737,100.50561],[13.73732,100.50577],[13.73727,100.50592],[13.73722,100.50607],[13.73717,100.50623],[13.73711,100.50638],[13.73708,100.50646],[13.73705,100.50653],[13.73699,100.50668],[13.73692,100.50683],[13.73686,100.50698],[13.73679,100.50712],[13.73672,100.50727],[13.73664,100.50741],[13.73657,100.50756],[13.73649,100.5077],[13.73641,100.50784],[13.73632,100.50798],[13.73624,100.50812],[13.73615,100.50825],[13.73606,100.50839],[13.73597,100.50852],[13.73588,100.50865],[13.73578,100.50878],[13.73569,100.50891],[13.73559,100.50904],[13.73549,100.50917],[13.73538,100.50929],[13.73528,100.50941],[13.73517,100.50953],[13.73506,100.50965],[13.73495,100.50977],[13.73484,100.50988],[13.73473,100.51],[13.73464,100.51008],[13.73458,100.51014],[13.73449,100.51022],[13.73317,100.51096],[13.73121,100.51187],[13.73066,100.51204],[13.73023,100.51215],[13.72981,100.51225],[13.72944,100.51234],[13.72897,100.51246],[13.72836,100.51254],[13.72738,100.51268],[13.72665,100.51275],[13.72571,100.51276],[13.72429,100.51285],[13.72031,100.51247],[13.71991,100.51236],[13.71942,100.51218],[13.71933,100.51215],[13.71826,100.51185],[13.71738,100.51139],[13.71702,100.5112],[13.71688,100.51112],[13.71517,100.51021],[13.7134,100.509],[13.71231,100.50819],[13.71196,100.50794],[13.71153,100.50761],[13.7103,100.50639],[13.70824,100.50414],[13.70638,100.50123],[13.70512,100.49874],[13.70509,100.49867],[13.70482,100.49815],[13.70304,100.49496],[13.70176,100.4932],[13.70086,100.49231],[13.70058,100.49203],[13.69922,100.49101],[13.69776,100.49029],[13.69629,100.48995],[13.69496,100.49004],[13.69484,100.49005],[13.69462,100.49011],[13.6934,100.49046],[13.69193,100.49144],[13.69041,100.49271],[13.68937,100.49408],[13.68842,100.49562],[13.68778,100.49692],[13.687,100.49928],[13.68681,100.50014],[13.68598,100.504],[13.68576,100.50603],[13.68574,100.50623],[13.6856,100.50746],[13.68514,100.5107],[13.68447,100.51318],[13.68323,100.51602],[13.68278,100.51679],[13.68245,100.51736],[13.68171,100.51867],[13.68021,100.52082],[13.67841,100.52279]];
+const HYDRO = {
+  bridges:[
+    {name:'สะพานสมเด็จพระปิ่นเกล้า', i:52},
+    {name:'สะพานสมเด็จพระเจ้าตากสิน', i:252},
+    {name:'สะพานพระราม 9', i:292, dir:'left'}
+  ],
+  zones:[
+    {name:'HYDROLANCE รพ.ตากสิน', from:0, to:1, color:'--hydro-a', base:{lat:13.730736042473758,lng:100.50859015120231}},
+    {name:'HYDROLANCE รพ.เจริญกรุงประชารักษ์', from:1, to:2, color:'--hydro-b', base:{lat:13.694783839408018,lng:100.49465473955917}}
+  ]
+};
+const hydroPath = z => RIVER.slice(HYDRO.bridges[z.from].i, HYDRO.bridges[z.to].i+1);
 const LOY_ALL = () => [...LOY.amb,...LOY.als,...LOY.mtl.flatMap(t=>t.pts)];
 const ICON_AMB = '<svg viewBox="0 0 40 28" width="40" height="28" aria-hidden="true"><path d="M3 6h21v15H3z" fill="#fff" stroke="#e23d4b" stroke-width="2"/><path d="M24 10h7l5 6v5H24z" fill="#fff" stroke="#e23d4b" stroke-width="2"/><path d="M27 12h4l3 4h-7z" fill="#90caf9"/><rect x="11.5" y="8.5" width="4" height="10" fill="#e23d4b"/><rect x="8.5" y="11.5" width="10" height="4" fill="#e23d4b"/><rect x="9" y="2.5" width="6" height="3" rx="1" fill="#1e88e5"/><circle cx="10" cy="22" r="3.2" fill="#263238" stroke="#fff" stroke-width="1.5"/><circle cx="30" cy="22" r="3.2" fill="#263238" stroke="#fff" stroke-width="1.5"/></svg>';
 const ICON_MTL = '<svg viewBox="0 0 40 28" width="40" height="28" aria-hidden="true"><circle cx="9" cy="20" r="5.5" fill="none" stroke="#263238" stroke-width="2.6"/><circle cx="31" cy="20" r="5.5" fill="none" stroke="#263238" stroke-width="2.6"/><path d="M9 20l6-9h9l4 9" fill="none" stroke="#263238" stroke-width="2.4" stroke-linejoin="round"/><path d="M14 12h12l3 5H16z" fill="#f08a12"/><rect x="16" y="5" width="9" height="7" rx="1.5" fill="#fff" stroke="#f08a12" stroke-width="1.6"/><rect x="19.6" y="6" width="1.8" height="5" fill="#e23d4b"/><rect x="18" y="7.6" width="5" height="1.8" fill="#e23d4b"/><path d="M26 11l4-4h3" fill="none" stroke="#263238" stroke-width="2.2" stroke-linecap="round"/><circle cx="34" cy="6" r="1.6" fill="#1e88e5"/></svg>';
+const ICON_BOAT = '<svg viewBox="0 0 40 28" width="40" height="28" aria-hidden="true"><path d="M3 17h34l-5 7H8z" fill="var(--hc)"/><path d="M10 9h16l4 8H8z" fill="#fff" stroke="var(--hc)" stroke-width="2"/><rect x="16.2" y="10.5" width="3" height="5.5" fill="#e23d4b"/><rect x="14.9" y="11.8" width="5.6" height="2.9" fill="#e23d4b"/><rect x="22" y="11" width="5" height="4" rx="1" fill="#90caf9"/><path d="M2 26q4-3 8 0t8 0 8 0 8 0 6 0" fill="none" stroke="#38bdf8" stroke-width="1.8"/></svg>';
 const ICON_ALS = ICON_AMB.replace(/#e23d4b/g,'#6d4fd8');
 let loyMap=null; const loyMarkers=[];
 function loyIcon(kind,n){return L.divIcon({className:'',html:'<div class="loy-ico '+kind+'">'+({amb:ICON_AMB,als:ICON_ALS,mtl:ICON_MTL})[kind]+'<span>'+n+'</span></div>',iconSize:[46,34],iconAnchor:[23,17]});}
 function initLoy(){
   if(loyMap){setTimeout(()=>loyMap.invalidateSize(),30);return;}
-  loyMap=L.map('loyMap',{zoomControl:false,zoomSnap:0.25});
+  loyMap=L.map('loyMap',{zoomControl:false,zoomSnap:0.25,center:[13.75,100.55],zoom:11});
   L.control.zoom({position:'bottomright'}).addTo(loyMap);
-  if(map.hasLayer(tiles)) L.tileLayer(TILE_URL,{...TILE_OPT,className:'loy-tiles'}).addTo(loyMap);
-  L.geoJSON(D.districts,{interactive:false,style:{color:css('--loy-line'),weight:1.2,fillColor:css('--loy-water'),fillOpacity:map.hasLayer(tiles)?.25:1}}).addTo(loyMap);
+  // พื้นหลัง: ภาพดาวเทียม Esri World Imagery (ไม่ต้องใช้ API key) + ชื่อสถานที่ / สลับเป็นแผนที่ถนน OSM ได้
+  const sat=L.layerGroup([
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,maxNativeZoom:19,attribution:'ภาพดาวเทียม © Esri, Maxar, Earthstar Geographics'}),
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,maxNativeZoom:19,opacity:.9})
+  ]);
+  const street=L.tileLayer(TILE_URL,{...TILE_OPT,className:'loy-tiles'});
+  const dist=L.geoJSON(D.districts,{interactive:false}).addTo(loyMap);
+  const setBase=k=>{
+    [sat,street].forEach(l=>loyMap.removeLayer(l));(k==='sat'?sat:street).addTo(loyMap);
+    dist.setStyle(k==='sat'?{color:'#ffffff',opacity:.55,weight:1.2,fillOpacity:0}:{color:css('--loy-line'),opacity:1,weight:1.2,fillColor:css('--loy-water'),fillOpacity:.25});
+    document.querySelectorAll('[data-base]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.base===k)));
+  };
+  document.querySelectorAll('[data-base]').forEach(b=>b.onclick=()=>setBase(b.dataset.base));
+  setBase('sat');
+  // HYDROLANCE: แนวแม่น้ำที่แต่ละโรงพยาบาลดูแล
+  HYDRO.zones.forEach(z=>{
+    const path=hydroPath(z), col=css(z.color);
+    L.polyline(path,{color:'#ffffff',weight:17,opacity:.55,interactive:false,lineCap:'round'}).addTo(loyMap);
+    const line=L.polyline(path,{color:col,weight:11,opacity:.9,lineCap:'round'}).addTo(loyMap)
+      .bindPopup('<div class="pop"><b>'+z.name+'</b><span class="tag" style="background:'+col+'">เรือการแพทย์ฉุกเฉิน</span><br>ดูแลแม่น้ำเจ้าพระยา<br>'+HYDRO.bridges[z.from].name+' → '+HYDRO.bridges[z.to].name+'</div>');
+    z.line=line;
+    L.marker([z.base.lat,z.base.lng],{icon:L.divIcon({className:'',html:'<div class="loy-ico hydro" style="--hc:'+col+'">'+ICON_BOAT+'</div>',iconSize:[46,34],iconAnchor:[23,17]}),title:z.name,zIndexOffset:450})
+      .bindPopup(()=>line.getPopup().getContent()).addTo(loyMap);
+  });
+  HYDRO.bridges.forEach(b=>{const p=RIVER[b.i];
+    L.circleMarker(p,{radius:6,color:'#1b1f4b',weight:2.5,fillColor:'#ffffff',fillOpacity:1}).bindTooltip(b.name,{permanent:true,direction:b.dir||'right',offset:[b.dir==='left'?-8:8,0],className:'bridge-label'}).addTo(loyMap);});
   const add=(p,kind,n)=>{
     const K=LOY_KIND[kind];
     const m=L.marker([p.lat,p.lng],{icon:loyIcon(kind,n),title:p.name,zIndexOffset:K.z})
@@ -591,6 +647,11 @@ function initLoy(){
   const sync=()=>document.getElementById('loyMap').classList.toggle('loy-far',loyMap.getZoom()<12.5);
   loyMap.on('zoomend',sync);
   const fitAll=()=>{loyMap.invalidateSize();loyMap.fitBounds(L.latLngBounds(LOY_ALL().map(p=>[p.lat,p.lng])).pad(.12));};
+  // list rows for river zones
+  HYDRO.zones.forEach(z=>{const li=document.createElement('li');
+    li.innerHTML='<button type="button" class="loy-row"><span class="loy-n hydro" style="background:'+css(z.color)+'">⛴</span><span class="nm">'+z.name+'</span><span class="at">'+HYDRO.bridges[z.from].name+' → '+HYDRO.bridges[z.to].name+'</span></button>';
+    li.firstChild.onclick=()=>{loyMap.flyToBounds(z.line.getBounds().pad(.25),{duration:.6});setTimeout(()=>z.line.openPopup(),650);};
+    document.getElementById('loyListHydro').appendChild(li);});
   fitAll();sync();
   // the panel beside the map sets its height; refit once layout and fonts settle, unless the viewer already moved the map
   let touched=false;loyMap.on('dragstart',()=>touched=true);loyMap.getContainer().addEventListener('wheel',()=>touched=true,{passive:true});
@@ -599,6 +660,7 @@ function initLoy(){
 }
 document.getElementById('loyFit').onclick=()=>loyMap&&loyMap.flyToBounds(L.latLngBounds(LOY_ALL().map(p=>[p.lat,p.lng])).pad(.12),{duration:.6});
 // โซนเกาะรัตนโกสินทร์ — จุดหนาแน่น ไอคอนซ้อนกันเมื่อดูทั้งเมือง
+document.getElementById('loyRiver').onclick=()=>loyMap&&loyMap.flyToBounds(L.latLngBounds(RIVER.slice(HYDRO.bridges[0].i,HYDRO.bridges[2].i+1)).pad(.15),{duration:.6});
 document.getElementById('loyOld').onclick=()=>loyMap&&loyMap.flyToBounds([[13.736,100.488],[13.776,100.514]],{duration:.6});
 ['amb','als','mtl'].forEach(k=>document.querySelectorAll('[data-count="'+k+'"]').forEach(e=>e.textContent=LOY[k].length));
 document.querySelectorAll('[data-count="mtlpts"]').forEach(e=>e.textContent=LOY.mtl.reduce((a,t)=>a+t.pts.length,0));
