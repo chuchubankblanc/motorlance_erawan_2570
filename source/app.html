@@ -156,7 +156,14 @@ body.loy-mode .wrap>header{display:none}
 .loy-title{display:block;font:700 clamp(21px,2.8vw,32px)/1.25 var(--font-display);margin:0;text-wrap:balance;color:#fff}
 .loy-title em{font-style:normal;color:var(--loy-moon)}
 .loy-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
-.loy-chip{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:5px 12px 5px 6px;font-size:13.5px;backdrop-filter:blur(2px)}
+.loy-chip{font:inherit;color:#fff;cursor:pointer;transition:background .15s,border-color .15s,opacity .15s;display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:5px 12px 5px 6px;font-size:13.5px;backdrop-filter:blur(2px)}
+.loy-chip:hover{background:rgba(255,255,255,.24)}
+.loy-chip:focus-visible{outline:3px solid var(--loy-moon);outline-offset:2px}
+.loy-chips:has([aria-pressed="true"]:not(.all)) .loy-chip[aria-pressed="false"]{opacity:.55}
+.loy-chip[aria-pressed="true"]{background:#fff;color:var(--loy-night);border-color:#fff;font-weight:600}
+.loy-chip.all b{background:var(--loy-dusk);font-size:13px}
+.loy-hint{margin:2px 0 0;font-size:12.5px;color:rgba(255,255,255,.75)}
+.loy-panel section[hidden]{display:none}
 .loy-chip b{font:700 16px/1 var(--font-display);min-width:26px;height:26px;border-radius:13px;display:grid;place-items:center;color:#fff}
 .loy-chip.hydro b{background:linear-gradient(120deg,#0ea5e9,#14b8a6);padding:0 2px}
 .loy-chip.amb b{background:var(--loy-amb)}.loy-chip.als b{background:var(--loy-als)}.loy-chip.mtl b{background:var(--loy-mtl)}.loy-chip.time b{background:var(--loy-river);font-size:13px;padding:0 6px}
@@ -196,8 +203,16 @@ body.loy-mode .wrap>header{display:none}
 .loy-sec-h small{font:500 13px var(--font-body);background:rgba(255,255,255,.22);border-radius:999px;padding:2px 10px}
 .loy-sec-h small b{font:700 15px var(--font-display)}
 .loy-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.loy-item{background:var(--loy-soft);border-radius:10px;border:1px solid transparent;transition:border-color .15s}
+.loy-item:hover{border-color:var(--loy-line)}
+.loy-tel{display:block;font:500 13px var(--font-body);color:var(--calm);padding:0 10px 8px 48px;text-decoration:none;font-variant-numeric:tabular-nums}
+a.loy-tel{font-weight:600}
+.loy-tel.none{color:var(--muted)}
+.loy-team .loy-tel{padding:0 0 2px 38px}
 .loy-row{display:grid;grid-template-columns:auto minmax(0,1fr);gap:0 10px;align-items:center;width:100%;text-align:left;font:inherit;color:var(--ink);background:var(--loy-soft);border:1px solid transparent;border-radius:10px;padding:8px 10px;cursor:pointer;transition:background .15s,border-color .15s}
+.loy-item>.loy-row{background:none;padding-bottom:3px}
 .loy-row:hover{background:var(--loy-soft-2);border-color:var(--loy-line)}
+.loy-item>.loy-row:hover{background:none;border-color:transparent}
 .loy-row:focus-visible{outline:3px solid var(--loy-dusk);outline-offset:2px}
 .loy-row .nm{font:600 15.5px/1.3 var(--font-display);color:var(--loy-ink)}
 .loy-row .at{grid-column:2;font-size:13px;color:var(--muted)}
@@ -255,7 +270,8 @@ body.loy-mode .wrap>header{display:none}
       <div class="inner">
         <span class="eyebrow">งานลอยกระทง · วันอังคารที่ 24 พฤศจิกายน 2569</span>
         <h2 class="loy-title">ศูนย์เอราวัณจัดรถพยาบาลเข้า <em>standby</em> ตามจุดจอดดังนี้</h2>
-        <div class="loy-chips"><span class="loy-chip amb"><b data-count="amb">8</b>จุดรถพยาบาล standby</span><span class="loy-chip als"><b data-count="als">5</b>รถ ALS โรงพยาบาล</span><span class="loy-chip mtl"><b data-count="mtl">8</b>ทีม Motorlance</span><span class="loy-chip hydro"><b>2</b>HYDROLANCE</span></div>
+        <div class="loy-chips" role="group" aria-label="กรองตามประเภท"><button type="button" class="loy-chip all" data-filter="all" aria-pressed="true"><b>✓</b>ทั้งหมด</button><button type="button" class="loy-chip amb" data-filter="amb" aria-pressed="false"><b data-count="amb">8</b>จุดรถพยาบาล standby ศูนย์เอราวัณ</button><button type="button" class="loy-chip als" data-filter="als" aria-pressed="false"><b data-count="als">5</b>รถ ALS โรงพยาบาล</button><button type="button" class="loy-chip mtl" data-filter="mtl" aria-pressed="false"><b data-count="mtl">8</b>ทีม Motorlance</button><button type="button" class="loy-chip hydro" data-filter="hydro" aria-pressed="false"><b>2</b>HYDROLANCE</button></div>
+        <p class="loy-hint">กดป้ายด้านบนเพื่อดูเฉพาะประเภทนั้น · กดซ้ำเพื่อดูทั้งหมด</p>
       </div>
     </div>
     <div class="main loy-main">
@@ -264,19 +280,19 @@ body.loy-mode .wrap>header{display:none}
         <div class="toolbar"><span class="seg" role="group" aria-label="พื้นหลังแผนที่"><button class="btn" data-base="sat" aria-pressed="true" type="button">ดาวเทียม</button><button class="btn" data-base="street" aria-pressed="false" type="button">แผนที่ถนน</button></span><button class="btn" id="loyFit" type="button">ดูทุกจุด</button><button class="btn" id="loyRiver" type="button">ซูมแม่น้ำเจ้าพระยา</button><button class="btn" id="loyOld" type="button">ซูมโซนเกาะรัตนโกสินทร์</button></div>
       </div>
       <aside class="panel loy-panel">
-        <section>
-          <div class="loy-sec-h amb"><span>รถพยาบาล standby</span><small><b data-count="amb">–</b> จุด</small></div>
+        <section data-kind="amb">
+          <div class="loy-sec-h amb"><span>รถพยาบาล standby ศูนย์เอราวัณ</span><small><b data-count="amb">–</b> จุด</small></div>
           <ul class="loy-list" id="loyList"></ul>
         </section>
-        <section>
+        <section data-kind="als">
           <div class="loy-sec-h als"><span>รถ ALS โรงพยาบาล ประจำจุดงาน</span><small><b data-count="als">–</b> คัน</small></div>
           <ul class="loy-list" id="loyListAls"></ul>
         </section>
-        <section>
+        <section data-kind="hydro">
           <div class="loy-sec-h hydro"><span>HYDROLANCE เรือการแพทย์ฉุกเฉิน</span><small><b>2</b> เขตลำน้ำ</small></div>
           <ul class="loy-list" id="loyListHydro"></ul>
         </section>
-        <section>
+        <section data-kind="mtl">
           <div class="loy-sec-h mtl"><span>Motorlance เวรบ่าย</span><small><b data-count="mtl">–</b> ทีม · <b data-count="mtlpts">–</b> จุด</small></div>
           <ul class="loy-list" id="loyListMtl"></ul>
         </section>
@@ -530,39 +546,40 @@ function renderDetail(){
   t.points.length>1?mini.fitBounds(b.pad(.25),{maxZoom:14}):mini.setView(b.getCenter(),14);
 }
 // ---------- Loy Krathong standby view
+// tel: เบอร์โทรของรถแต่ละคัน — ใส่ระหว่าง '' เช่น tel:'081-234-5678' เว้นว่างไว้จะขึ้น "รอข้อมูลเบอร์โทร"
 const LOY = {
   amb: [
-    {name:'จุดจอดวัดวิมุต', at:'วัดวิมุตยาราม', lat:13.7880, lng:100.5040, approx:false},
-    {name:'จุดจอดจรัญสนิทวงศ์', at:'สะพานพระปกเกล้า', lat:13.7395, lng:100.4985, approx:false},
-    {name:'จุดจอดบางซื่อ', at:'สน.ดอนเมือง', lat:13.9170, lng:100.5960, approx:false},
-    {name:'จุดจอดดินแดง', at:'วัดเสมียนนารี', lat:13.8255, lng:100.5550, approx:false},
-    {name:'จุดจอดลาดพร้าว', at:'สำนักงานเขตลาดพร้าว', lat:13.803651252328965, lng:100.60739469538208, approx:false},
-    {name:'จุดจอดบึงกุ่ม', at:'สำนักงานเขตบึงกุ่ม', lat:13.7858, lng:100.6680, approx:false},
-    {name:'จุดจอดศบฉ.', at:'ถนนทรงวาด', lat:13.7393, lng:100.5080, approx:false},
-    {name:'จุดจอดอุโมงค์พระลาน', at:'วัดภูเขาทอง', lat:13.7538, lng:100.5066, approx:false}
+    {name:'จุดจอดวัดวิมุต', at:'วัดวิมุตยาราม', lat:13.7880, lng:100.5040, tel:''},
+    {name:'จุดจอดจรัญสนิทวงศ์', at:'สะพานพระปกเกล้า', lat:13.7395, lng:100.4985, tel:''},
+    {name:'จุดจอดบางซื่อ', at:'สน.ดอนเมือง', lat:13.9170, lng:100.5960, tel:''},
+    {name:'จุดจอดดินแดง', at:'วัดเสมียนนารี', lat:13.8255, lng:100.5550, tel:''},
+    {name:'จุดจอดลาดพร้าว', at:'สำนักงานเขตลาดพร้าว', lat:13.803651252328965, lng:100.60739469538208, tel:''},
+    {name:'จุดจอดบึงกุ่ม', at:'สำนักงานเขตบึงกุ่ม', lat:13.7858, lng:100.6680, tel:''},
+    {name:'จุดจอดศบฉ.', at:'ถนนทรงวาด', lat:13.7393, lng:100.5080, tel:''},
+    {name:'จุดจอดอุโมงค์พระลาน', at:'วัดภูเขาทอง', lat:13.7538, lng:100.5066, tel:''}
   ],
   // Motorlance ที่ available เวรบ่ายวันลอยกระทง: 1 ทีม อาจประจำได้หลายจุด
   mtl: [
-    {name:'MTL วรจักร', pts:[{at:'จุดรพ.กลาง', lat:13.74717627219551, lng:100.5093483091106},{at:'จุดรพ.บุษราคัม', lat:13.889737219263488, lng:100.65719722606933}]},
-    {name:'MTL ตากสิน', pts:[{at:'จุดตลาดพลู', lat:13.722506025609492, lng:100.47838426839537},{at:'จุดรพ.มิตรประชา', lat:13.712245855507414, lng:100.43191893955947}]},
-    {name:'MTL เจริญกรุง', pts:[{at:'จุดสดพ.ทุ่งครุ', lat:13.619148811715029, lng:100.51052372421509}]},
-    {name:'MTL บางนา กทม.', note:'ถึง 21.00 น.', pts:[{at:'จุดไบเทค บางนา', lat:13.669621685771066, lng:100.6101542953801}]},
-    {name:'MTL รัตนประชารักษ์', pts:[{at:'จุดรพ.รัตนประชารักษ์', lat:13.91000512810429, lng:100.75298972421947}]},
-    {name:'MTL เลียบวารี', pts:[{at:'จุดรพ.เวชการุณย์รัศมิ์', lat:13.86126162922206, lng:100.85792925681827},{at:'จุดคู้คลองสิบ ซอย 14', lat:13.902193216902171, lng:100.81084033922498}]},
-    {name:'MTL ราชพิพัฒน์', pts:[{at:'จุดรพ.ราชพิพัฒน์', lat:13.73101781992869, lng:100.3670922242168},{at:'จุดสวนบางแคภิรมย์', lat:13.7140, lng:100.4070, approx:true}]},
-    {name:'MTL นคราภิบาล', pts:[{at:'จุดสถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง', lat:13.7299, lng:100.7782, approx:true}]}
+    {name:'MTL วรจักร', tel:'', pts:[{at:'จุดรพ.กลาง', lat:13.74717627219551, lng:100.5093483091106},{at:'จุดรพ.บุษราคัม', lat:13.889737219263488, lng:100.65719722606933}]},
+    {name:'MTL ตากสิน', tel:'', pts:[{at:'จุดตลาดพลู', lat:13.722506025609492, lng:100.47838426839537},{at:'จุดรพ.มิตรประชา', lat:13.712245855507414, lng:100.43191893955947}]},
+    {name:'MTL เจริญกรุง', tel:'', pts:[{at:'จุดสดพ.ทุ่งครุ', lat:13.619148811715029, lng:100.51052372421509}]},
+    {name:'MTL บางนา กทม.', note:'ถึง 21.00 น.', tel:'', pts:[{at:'จุดไบเทค บางนา', lat:13.669621685771066, lng:100.6101542953801}]},
+    {name:'MTL รัตนประชารักษ์', tel:'', pts:[{at:'จุดรพ.รัตนประชารักษ์', lat:13.91000512810429, lng:100.75298972421947}]},
+    {name:'MTL เลียบวารี', tel:'', pts:[{at:'จุดรพ.เวชการุณย์รัศมิ์', lat:13.86126162922206, lng:100.85792925681827},{at:'จุดคู้คลองสิบ ซอย 14', lat:13.902193216902171, lng:100.81084033922498}]},
+    {name:'MTL ราชพิพัฒน์', tel:'', pts:[{at:'จุดรพ.ราชพิพัฒน์', lat:13.73101781992869, lng:100.3670922242168},{at:'จุดสวนบางแคภิรมย์', lat:13.7140, lng:100.4070}]},
+    {name:'MTL นคราภิบาล', tel:'', pts:[{at:'จุดสถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง', lat:13.7299, lng:100.7782}]}
   ],
   // รถ ALS ของโรงพยาบาล ประจำจุดจัดงาน (name = จุดงาน, at = หน่วย)
   als: [
-    {name:'ป้อมมหากาฬ', at:'รถ ALS รพ.เวชการุณย์รัศมิ์', lat:13.7556, lng:100.5050, approx:true},
-    {name:'ป้อมพระสุเมรุ (สวนสันติชัยปราการ)', at:'รถ ALS รพ.สิรินธร', lat:13.7638, lng:100.4955, approx:true},
-    {name:'งานลอยกระทง สะพานพระราม 8', at:'รถ ALS รพ.กลาง', lat:13.7703, lng:100.5000, approx:true},
-    {name:'สวนสาธารณะเฉลิมพระเกียรติ 6 รอบพระชนมพรรษา (สะพานพระราม 9)', at:'รถ ALS รพ.เจริญกรุงประชารักษ์', lat:13.6840, lng:100.5150, approx:true},
-    {name:'คลองโอ่งอ่าง (งานดิวาลี ลิตเติ้ลอินเดีย)', at:'รถ ALS รพ.หลวงพ่อทวีศักดิ์ฯ', lat:13.7450, lng:100.5005, approx:true}
+    {name:'ป้อมมหากาฬ', at:'รถ ALS รพ.เวชการุณย์รัศมิ์', lat:13.7556, lng:100.5050, tel:''},
+    {name:'ป้อมพระสุเมรุ (สวนสันติชัยปราการ)', at:'รถ ALS รพ.สิรินธร', lat:13.7638, lng:100.4955, tel:''},
+    {name:'งานลอยกระทง สะพานพระราม 8', at:'รถ ALS รพ.กลาง', lat:13.7703, lng:100.5000, tel:''},
+    {name:'สวนสาธารณะเฉลิมพระเกียรติ 6 รอบพระชนมพรรษา (สะพานพระราม 9)', at:'รถ ALS รพ.เจริญกรุงประชารักษ์', lat:13.6840, lng:100.5150, tel:''},
+    {name:'คลองโอ่งอ่าง (งานดิวาลี ลิตเติ้ลอินเดีย)', at:'รถ ALS รพ.หลวงพ่อทวีศักดิ์ฯ', lat:13.7450, lng:100.5005, tel:''}
   ]
 };
 const LOY_KIND = {
-  amb:{list:'loyList', tag:'รถพยาบาล standby', color:'--loy-amb', z:500, sub:p=>'ที่ '+p.at},
+  amb:{list:'loyList', tag:'รถพยาบาล standby ศูนย์เอราวัณ', color:'--loy-amb', z:500, sub:p=>'ที่ '+p.at},
   als:{list:'loyListAls', tag:'รถ ALS โรงพยาบาล', color:'--loy-als', z:550, sub:p=>p.at},
   mtl:{list:'loyListMtl', tag:'Motorlance เวรบ่าย', color:'--loy-mtl', z:600, sub:p=>'ที่ '+p.at}
 };
@@ -575,8 +592,8 @@ const HYDRO = {
     {name:'สะพานพระราม 9', i:292, dir:'left'}
   ],
   zones:[
-    {name:'HYDROLANCE รพ.ตากสิน', from:0, to:1, color:'--hydro-a', base:{lat:13.730736042473758,lng:100.50859015120231}},
-    {name:'HYDROLANCE รพ.เจริญกรุงประชารักษ์', from:1, to:2, color:'--hydro-b', base:{lat:13.694783839408018,lng:100.49465473955917}}
+    {name:'HYDROLANCE รพ.ตากสิน', tel:'', from:0, to:1, color:'--hydro-a', base:{lat:13.730736042473758,lng:100.50859015120231}},
+    {name:'HYDROLANCE รพ.เจริญกรุงประชารักษ์', tel:'', from:1, to:2, color:'--hydro-b', base:{lat:13.694783839408018,lng:100.49465473955917}}
   ]
 };
 const hydroPath = z => RIVER.slice(HYDRO.bridges[z.from].i, HYDRO.bridges[z.to].i+1);
@@ -586,11 +603,15 @@ const ICON_MTL = '<svg viewBox="0 0 40 28" width="40" height="28" aria-hidden="t
 const ICON_BOAT = '<svg viewBox="0 0 40 28" width="40" height="28" aria-hidden="true"><path d="M3 17h34l-5 7H8z" fill="var(--hc)"/><path d="M10 9h16l4 8H8z" fill="#fff" stroke="var(--hc)" stroke-width="2"/><rect x="16.2" y="10.5" width="3" height="5.5" fill="#e23d4b"/><rect x="14.9" y="11.8" width="5.6" height="2.9" fill="#e23d4b"/><rect x="22" y="11" width="5" height="4" rx="1" fill="#90caf9"/><path d="M2 26q4-3 8 0t8 0 8 0 8 0 6 0" fill="none" stroke="#38bdf8" stroke-width="1.8"/></svg>';
 const ICON_ALS = ICON_AMB.replace(/#e23d4b/g,'#6d4fd8');
 let loyMap=null; const loyMarkers=[];
+const LOY_G={};  // layer group ต่อประเภท ใช้กรองการแสดงผล
+const telHtml=t=>t?'<a class="loy-tel" href="tel:'+t.replace(/[^0-9+]/g,'')+'">โทร '+t+'</a>':'<span class="loy-tel none">โทร: รอข้อมูลเบอร์โทร</span>';
+const telPop=t=>'<br>'+(t?'โทร <a href="tel:'+t.replace(/[^0-9+]/g,'')+'">'+t+'</a>':'<span style="color:var(--muted)">โทร: รอข้อมูลเบอร์โทร</span>');
 function loyIcon(kind,n){return L.divIcon({className:'',html:'<div class="loy-ico '+kind+'">'+({amb:ICON_AMB,als:ICON_ALS,mtl:ICON_MTL})[kind]+'<span>'+n+'</span></div>',iconSize:[46,34],iconAnchor:[23,17]});}
 function initLoy(){
   if(loyMap){setTimeout(()=>loyMap.invalidateSize(),30);return;}
   loyMap=L.map('loyMap',{zoomControl:false,zoomSnap:0.25,center:[13.75,100.55],zoom:11});
   L.control.zoom({position:'bottomright'}).addTo(loyMap);
+  ['hydro','amb','als','mtl'].forEach(k=>LOY_G[k]=L.layerGroup().addTo(loyMap));
   // พื้นหลัง: ภาพดาวเทียม Esri World Imagery (ไม่ต้องใช้ API key) + ชื่อสถานที่ / สลับเป็นแผนที่ถนน OSM ได้
   const sat=L.layerGroup([
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,maxNativeZoom:19,attribution:'ภาพดาวเทียม © Esri, Maxar, Earthstar Geographics'}),
@@ -608,22 +629,23 @@ function initLoy(){
   // HYDROLANCE: แนวแม่น้ำที่แต่ละโรงพยาบาลดูแล
   HYDRO.zones.forEach(z=>{
     const path=hydroPath(z), col=css(z.color);
-    L.polyline(path,{color:'#ffffff',weight:17,opacity:.55,interactive:false,lineCap:'round'}).addTo(loyMap);
-    const line=L.polyline(path,{color:col,weight:11,opacity:.9,lineCap:'round'}).addTo(loyMap)
-      .bindPopup('<div class="pop"><b>'+z.name+'</b><span class="tag" style="background:'+col+'">เรือการแพทย์ฉุกเฉิน</span><br>ดูแลแม่น้ำเจ้าพระยา<br>'+HYDRO.bridges[z.from].name+' → '+HYDRO.bridges[z.to].name+'</div>');
+    L.polyline(path,{color:'#ffffff',weight:17,opacity:.55,interactive:false,lineCap:'round'}).addTo(LOY_G.hydro);
+    const line=L.polyline(path,{color:col,weight:11,opacity:.9,lineCap:'round'}).addTo(LOY_G.hydro)
+      .bindPopup('<div class="pop"><b>'+z.name+'</b><span class="tag" style="background:'+col+'">เรือการแพทย์ฉุกเฉิน</span><br>ดูแลแม่น้ำเจ้าพระยา<br>'+HYDRO.bridges[z.from].name+' → '+HYDRO.bridges[z.to].name+telPop(z.tel)+'</div>');
     z.line=line;
     L.marker([z.base.lat,z.base.lng],{icon:L.divIcon({className:'',html:'<div class="loy-ico hydro" style="--hc:'+col+'">'+ICON_BOAT+'</div>',iconSize:[46,34],iconAnchor:[23,17]}),title:z.name,zIndexOffset:450})
-      .bindPopup(()=>line.getPopup().getContent()).addTo(loyMap);
+      .bindPopup(()=>line.getPopup().getContent()).addTo(LOY_G.hydro);
   });
   HYDRO.bridges.forEach(b=>{const p=RIVER[b.i];
-    L.circleMarker(p,{radius:6,color:'#1b1f4b',weight:2.5,fillColor:'#ffffff',fillOpacity:1}).bindTooltip(b.name,{permanent:true,direction:b.dir||'right',offset:[b.dir==='left'?-8:8,0],className:'bridge-label'}).addTo(loyMap);});
+    L.circleMarker(p,{radius:6,color:'#1b1f4b',weight:2.5,fillColor:'#ffffff',fillOpacity:1}).bindTooltip(b.name,{permanent:true,direction:b.dir||'right',offset:[b.dir==='left'?-8:8,0],className:'bridge-label'}).addTo(LOY_G.hydro);});
   const add=(p,kind,n)=>{
     const K=LOY_KIND[kind];
     const m=L.marker([p.lat,p.lng],{icon:loyIcon(kind,n),title:p.name,zIndexOffset:K.z})
-      .bindPopup('<div class="pop"><b>'+p.name+'</b><span class="tag" style="background:'+css(K.color)+'">'+K.tag+'</span><br>'+K.sub(p)+(p.approx?'<br><i>พิกัดโดยประมาณ</i>':'')+'<br><a href="'+gmaps(p)+'" target="_blank" rel="noopener">นำทางด้วย Google Maps ↗</a></div>').addTo(loyMap);
+      .bindPopup('<div class="pop"><b>'+p.name+'</b><span class="tag" style="background:'+css(K.color)+'">'+K.tag+'</span><br>'+K.sub(p)+telPop(p.tel)+'<br><a href="'+gmaps(p)+'" target="_blank" rel="noopener">นำทางด้วย Google Maps ↗</a></div>').addTo(LOY_G[kind]);
     loyMarkers.push(m);
     const li=document.createElement('li');
-    li.innerHTML='<button type="button" class="loy-row"><span class="loy-n '+kind+'">'+n+'</span><span class="nm">'+p.name+'</span><span class="at">'+K.sub(p)+(p.approx?' <em>· พิกัดโดยประมาณ</em>':'')+'</span></button>';
+    li.className='loy-item';
+    li.innerHTML='<button type="button" class="loy-row"><span class="loy-n '+kind+'">'+n+'</span><span class="nm">'+p.name+'</span><span class="at">'+K.sub(p)+'</span></button>'+telHtml(p.tel);
     li.firstChild.onclick=()=>{loyMap.flyTo([p.lat,p.lng],15,{duration:.5});setTimeout(()=>m.openPopup(),550);};
     document.getElementById(K.list).appendChild(li);
   };
@@ -632,14 +654,14 @@ function initLoy(){
   LOY.mtl.forEach((t,i)=>{
     const n=i+1, li=document.createElement('li');
     li.className='loy-team';
-    li.innerHTML='<div class="loy-team-h"><span class="loy-n mtl">'+n+'</span><span class="nm">'+t.name+'</span>'+(t.note?'<span class="loy-note">'+t.note+'</span>':'')+'</div><div class="loy-pts"></div>';
+    li.innerHTML='<div class="loy-team-h"><span class="loy-n mtl">'+n+'</span><span class="nm">'+t.name+'</span>'+(t.note?'<span class="loy-note">'+t.note+'</span>':'')+'</div><div class="loy-pts"></div>'+telHtml(t.tel);
     const box=li.querySelector('.loy-pts');
     t.pts.forEach(p=>{
       const m=L.marker([p.lat,p.lng],{icon:loyIcon('mtl',n),title:t.name+' · '+p.at,zIndexOffset:LOY_KIND.mtl.z})
-        .bindPopup('<div class="pop"><b>'+t.name+'</b><span class="tag" style="background:'+css('--loy-mtl')+'">Motorlance เวรบ่าย</span><br>ประจำ '+p.at+(t.note?'<br>เวลา: '+t.note:'')+(p.approx?'<br><i>พิกัดโดยประมาณ</i>':'')+'<br><a href="'+gmaps(p)+'" target="_blank" rel="noopener">นำทางด้วย Google Maps ↗</a></div>').addTo(loyMap);
+        .bindPopup('<div class="pop"><b>'+t.name+'</b><span class="tag" style="background:'+css('--loy-mtl')+'">Motorlance เวรบ่าย</span><br>ประจำ '+p.at+(t.note?'<br>เวลา: '+t.note:'')+telPop(t.tel)+'<br><a href="'+gmaps(p)+'" target="_blank" rel="noopener">นำทางด้วย Google Maps ↗</a></div>').addTo(LOY_G.mtl);
       loyMarkers.push(m);
       const b=document.createElement('button');b.type='button';b.className='loy-pt';
-      b.innerHTML=p.at+(p.approx?' <em>· พิกัดโดยประมาณ</em>':'');
+      b.textContent=p.at;
       b.onclick=()=>{loyMap.flyTo([p.lat,p.lng],15,{duration:.5});setTimeout(()=>m.openPopup(),550);};
       box.appendChild(b);
     });
@@ -649,8 +671,8 @@ function initLoy(){
   loyMap.on('zoomend',sync);
   const fitAll=()=>{loyMap.invalidateSize();loyMap.fitBounds(L.latLngBounds(LOY_ALL().map(p=>[p.lat,p.lng])).pad(.12));};
   // list rows for river zones
-  HYDRO.zones.forEach(z=>{const li=document.createElement('li');
-    li.innerHTML='<button type="button" class="loy-row"><span class="loy-n hydro" style="background:'+css(z.color)+'">⛴</span><span class="nm">'+z.name+'</span><span class="at">'+HYDRO.bridges[z.from].name+' → '+HYDRO.bridges[z.to].name+'</span></button>';
+  HYDRO.zones.forEach(z=>{const li=document.createElement('li');li.className='loy-item';
+    li.innerHTML='<button type="button" class="loy-row"><span class="loy-n hydro" style="background:'+css(z.color)+'">⛴</span><span class="nm">'+z.name+'</span><span class="at">'+HYDRO.bridges[z.from].name+' → '+HYDRO.bridges[z.to].name+'</span></button>'+telHtml(z.tel);
     li.firstChild.onclick=()=>{loyMap.flyToBounds(z.line.getBounds().pad(.25),{duration:.6});setTimeout(()=>z.line.openPopup(),650);};
     document.getElementById('loyListHydro').appendChild(li);});
   fitAll();sync();
@@ -659,7 +681,23 @@ function initLoy(){
   const refit=()=>{if(!touched)fitAll();else loyMap.invalidateSize();};
   setTimeout(refit,250);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>setTimeout(refit,50));
 }
-document.getElementById('loyFit').onclick=()=>loyMap&&loyMap.flyToBounds(L.latLngBounds(LOY_ALL().map(p=>[p.lat,p.lng])).pad(.12),{duration:.6});
+// กรองตามประเภท: กดป้ายด้านบน แผนที่และรายการจะเหลือเฉพาะประเภทนั้น / กดซ้ำหรือ "ทั้งหมด" เพื่อดูทุกประเภท
+let loyFilter='all';
+function loyBounds(){
+  const ks=loyFilter==='all'?['amb','als','mtl','hydro']:[loyFilter], b=L.latLngBounds([]);
+  ks.forEach(k=>LOY_G[k].eachLayer(l=>b.extend(l.getBounds?l.getBounds():l.getLatLng())));
+  return b;
+}
+function setLoyFilter(k){
+  loyFilter=(k===loyFilter&&k!=='all')?'all':k;
+  document.querySelectorAll('[data-filter]').forEach(c=>c.setAttribute('aria-pressed',String(c.dataset.filter===loyFilter)));
+  document.querySelectorAll('[data-kind]').forEach(sec=>sec.hidden=!(loyFilter==='all'||sec.dataset.kind===loyFilter));
+  if(!loyMap)return;
+  Object.entries(LOY_G).forEach(([kk,g])=>{const on=loyFilter==='all'||kk===loyFilter;if(on&&!loyMap.hasLayer(g))g.addTo(loyMap);if(!on)loyMap.removeLayer(g);});
+  const b=loyBounds();if(b.isValid())loyMap.flyToBounds(b.pad(.15),{duration:.6,maxZoom:14});
+}
+document.querySelectorAll('[data-filter]').forEach(c=>c.onclick=()=>setLoyFilter(c.dataset.filter));
+document.getElementById('loyFit').onclick=()=>{if(!loyMap)return;const b=loyBounds();loyMap.flyToBounds(b.pad(.12),{duration:.6,maxZoom:14});};
 // โซนเกาะรัตนโกสินทร์ — จุดหนาแน่น ไอคอนซ้อนกันเมื่อดูทั้งเมือง
 document.getElementById('loyRiver').onclick=()=>loyMap&&loyMap.flyToBounds(L.latLngBounds(RIVER.slice(HYDRO.bridges[0].i,HYDRO.bridges[2].i+1)).pad(.15),{duration:.6});
 document.getElementById('loyOld').onclick=()=>loyMap&&loyMap.flyToBounds([[13.736,100.488],[13.776,100.514]],{duration:.6});
