@@ -132,6 +132,30 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 1
 .pt .acts{display:flex;gap:12px;flex-wrap:wrap;margin-top:auto;padding-top:4px}
 .pt .acts a,.pt .acts button{font:600 13px var(--font-body);color:var(--calm);background:none;border:0;padding:0;cursor:pointer;text-decoration:none}
 .dnote{font-size:12.5px;color:var(--muted);padding:0 20px 16px;margin:0}
+/* Loy Krathong standby */
+.tab.loy[aria-selected="true"]{background:var(--signal);color:var(--signal-ink)}
+#viewLoy{display:flex;flex-direction:column;gap:12px}
+#viewLoy[hidden]{display:none}
+.loy-head{display:flex;flex-direction:column;gap:2px}
+.loy-title{font:700 clamp(19px,2.4vw,26px)/1.25 var(--font-display);margin:0;text-wrap:balance}
+#loyMap{position:absolute;inset:0;background:var(--land)}
+.loy-ico{position:relative;width:46px;height:34px;display:grid;place-items:center;background:var(--surface);border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,.35);border:2px solid #c62828}
+.loy-ico.mtl{border-color:#e65100}
+.loy-ico svg{width:38px;height:26px}
+.loy-ico span{position:absolute;top:-9px;right:-9px;min-width:20px;height:20px;border-radius:10px;background:#c62828;color:#fff;font:700 12px/20px var(--font-display);text-align:center;border:2px solid #fff}
+.loy-ico.mtl span{background:#e65100}
+.loy-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.loy-row{display:grid;grid-template-columns:auto minmax(0,1fr);gap:0 10px;align-items:center;width:100%;text-align:left;font:inherit;color:var(--ink);background:var(--bg);border:1px solid transparent;border-radius:8px;padding:8px 10px;cursor:pointer}
+.loy-row:hover{border-color:var(--line)}
+.loy-row:focus-visible{outline:3px solid var(--calm);outline-offset:2px}
+.loy-row .nm{font:600 15.5px/1.3 var(--font-display)}
+.loy-row .at{grid-column:2;font-size:13px;color:var(--muted)}
+.loy-row .at em{font-style:normal;color:var(--signal)}
+.loy-n{grid-row:span 2;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;color:#fff;font:700 13px var(--font-display);background:#c62828}
+.loy-n.mtl{background:#e65100}
+.loy-h{display:inline-flex;align-items:center;gap:8px}
+.loy-mini{width:12px;height:12px;border-radius:3px;background:#c62828}
+.loy-mini.mtl{background:#e65100;border-radius:50%}
 @media (max-width:900px){
   .dir{grid-template-columns:1fr}
   .hosps{position:static;display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
@@ -159,6 +183,31 @@ footer{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 1
   <div class="tabs" role="tablist" aria-label="เลือกหน้าจอ">
     <button class="tab" role="tab" id="tabMap" aria-selected="true" aria-controls="viewMap" type="button">แผนที่ภาพรวม</button>
     <button class="tab" role="tab" id="tabList" aria-selected="false" aria-controls="viewList" type="button">รายชื่อตามโรงพยาบาล</button>
+    <button class="tab loy" role="tab" id="tabLoy" aria-selected="false" aria-controls="viewLoy" type="button">ลอยกระทง 24 พ.ย.</button>
+  </div>
+
+  <div id="viewLoy" role="tabpanel" aria-labelledby="tabLoy" hidden>
+    <div class="loy-head">
+      <span class="eyebrow">งานลอยกระทง · วันอังคารที่ 24 พฤศจิกายน 2569</span>
+      <h2 class="loy-title">ศูนย์เอราวัณจัดรถพยาบาลเข้า standby ตามจุดจอดดังนี้</h2>
+    </div>
+    <div class="main loy-main">
+      <div class="mapbox">
+        <div id="loyMap" role="application" aria-label="แผนที่กรุงเทพมหานคร จุด standby งานลอยกระทง"></div>
+        <div class="toolbar"><button class="btn" id="loyFit" type="button">ดูทุกจุด</button></div>
+      </div>
+      <aside class="panel">
+        <section>
+          <h2><span class="loy-h"><span class="loy-mini amb"></span>รถพยาบาล standby</span> <small><b id="loyCount">–</b> จุด</small></h2>
+          <ul class="loy-list" id="loyList"></ul>
+        </section>
+        <section>
+          <h2><span class="loy-h"><span class="loy-mini mtl"></span>Motorlance เวรบ่าย</span> <small><b id="loyCountMtl">–</b> คัน</small></h2>
+          <ul class="loy-list" id="loyListMtl"></ul>
+          <p class="dnote" style="padding:0">"พิกัดโดยประมาณ" คือจุดที่ยังไม่ได้ยืนยันพิกัดจริง ตำแหน่งบนแผนที่อาจคลาดจากหน้างานเล็กน้อย</p>
+        </section>
+      </aside>
+    </div>
   </div>
 
   <div id="viewList" role="tabpanel" aria-labelledby="tabList" hidden>
@@ -406,13 +455,63 @@ function renderDetail(){
   const b=L.latLngBounds(t.points.map(p=>[p.lat,p.lng]));
   t.points.length>1?mini.fitBounds(b.pad(.25),{maxZoom:14}):mini.setView(b.getCenter(),14);
 }
-function showView(v){const isList=v==='list';
-  document.getElementById('viewList').hidden=!isList;document.getElementById('viewMap').style.display=isList?'none':'flex';
-  document.getElementById('tabList').setAttribute('aria-selected',String(isList));document.getElementById('tabMap').setAttribute('aria-selected',String(!isList));
-  if(isList)renderDetail();else setTimeout(()=>map.invalidateSize(),30);
-  try{history.replaceState(null,'',isList?'#hospitals':location.pathname+location.search);}catch(e){}}
+// ---------- Loy Krathong standby view
+// approx:true = พิกัดประมาณการ ยังไม่ได้ยืนยันจากหน้างาน
+const LOY = {
+  amb: [
+    {name:'จุดจอดวัดวิมุต', at:'วัดวิมุตยาราม', lat:13.7880, lng:100.5040, approx:true},
+    {name:'จุดจอดจรัญสนิทวงศ์', at:'สะพานพระปกเกล้า', lat:13.7395, lng:100.4985, approx:true},
+    {name:'จุดจอดบางซื่อ', at:'สน.ดอนเมือง', lat:13.9170, lng:100.5960, approx:true},
+    {name:'จุดจอดดินแดง', at:'วัดเสมียนนารี', lat:13.8255, lng:100.5550, approx:true},
+    {name:'จุดจอดลาดพร้าว', at:'สำนักงานเขตลาดพร้าว', lat:13.803651252328965, lng:100.60739469538208, approx:false},
+    {name:'จุดจอดบึงกุ่ม', at:'สำนักงานเขตบึงกุ่ม', lat:13.7858, lng:100.6680, approx:true},
+    {name:'จุดจอดศบฉ.', at:'ถนนทรงวาด', lat:13.7393, lng:100.5080, approx:true},
+    {name:'จุดจอดอุโมงค์พระลาน', at:'วัดภูเขาทอง', lat:13.7538, lng:100.5066, approx:true}
+  ],
+  mtl: [
+    {name:'MTL ทุ่งครุ', at:'จุดจอดทุ่งครุ (วัดทุ่งครุ)', lat:13.619148811715029, lng:100.51052372421509, approx:false},
+    {name:'MTL บางนา', at:'ไบเทคบางนา', lat:13.669621685771066, lng:100.6101542953801, approx:false}
+  ]
+};
+const ICON_AMB = '<svg viewBox="0 0 40 28" width="40" height="28" aria-hidden="true"><path d="M3 6h21v15H3z" fill="#fff" stroke="#c62828" stroke-width="2"/><path d="M24 10h7l5 6v5H24z" fill="#fff" stroke="#c62828" stroke-width="2"/><path d="M27 12h4l3 4h-7z" fill="#90caf9"/><rect x="11.5" y="8.5" width="4" height="10" fill="#c62828"/><rect x="8.5" y="11.5" width="10" height="4" fill="#c62828"/><rect x="9" y="2.5" width="6" height="3" rx="1" fill="#1e88e5"/><circle cx="10" cy="22" r="3.2" fill="#263238" stroke="#fff" stroke-width="1.5"/><circle cx="30" cy="22" r="3.2" fill="#263238" stroke="#fff" stroke-width="1.5"/></svg>';
+const ICON_MTL = '<svg viewBox="0 0 40 28" width="40" height="28" aria-hidden="true"><circle cx="9" cy="20" r="5.5" fill="none" stroke="#263238" stroke-width="2.6"/><circle cx="31" cy="20" r="5.5" fill="none" stroke="#263238" stroke-width="2.6"/><path d="M9 20l6-9h9l4 9" fill="none" stroke="#263238" stroke-width="2.4" stroke-linejoin="round"/><path d="M14 12h12l3 5H16z" fill="#e65100"/><rect x="16" y="5" width="9" height="7" rx="1.5" fill="#fff" stroke="#e65100" stroke-width="1.6"/><rect x="19.6" y="6" width="1.8" height="5" fill="#c62828"/><rect x="18" y="7.6" width="5" height="1.8" fill="#c62828"/><path d="M26 11l4-4h3" fill="none" stroke="#263238" stroke-width="2.2" stroke-linecap="round"/><circle cx="34" cy="6" r="1.6" fill="#1e88e5"/></svg>';
+let loyMap=null; const loyMarkers=[];
+function loyIcon(kind,n){return L.divIcon({className:'',html:'<div class="loy-ico '+kind+'">'+(kind==='amb'?ICON_AMB:ICON_MTL)+'<span>'+n+'</span></div>',iconSize:[46,34],iconAnchor:[23,17]});}
+function initLoy(){
+  if(loyMap){setTimeout(()=>loyMap.invalidateSize(),30);return;}
+  loyMap=L.map('loyMap',{zoomControl:false,zoomSnap:0.25});
+  L.control.zoom({position:'bottomright'}).addTo(loyMap);
+  if(map.hasLayer(tiles)) L.tileLayer(TILE_URL,TILE_OPT).addTo(loyMap);
+  L.geoJSON(D.districts,{interactive:false,style:{color:css('--border-map'),weight:1.1,fillColor:css('--land'),fillOpacity:map.hasLayer(tiles)?.08:1}}).addTo(loyMap);
+  const ul=document.getElementById('loyList');
+  const add=(p,kind,n)=>{
+    const m=L.marker([p.lat,p.lng],{icon:loyIcon(kind,n),title:p.name,zIndexOffset:kind==='mtl'?600:500})
+      .bindPopup('<div class="pop"><b>'+p.name+'</b><span class="tag" style="background:'+(kind==='amb'?'#c62828':'#e65100')+'">'+(kind==='amb'?'รถพยาบาล standby':'Motorlance เวรบ่าย')+'</span><br>ที่ '+p.at+(p.approx?'<br><i>พิกัดโดยประมาณ</i>':'')+'<br><a href="'+gmaps(p)+'" target="_blank" rel="noopener">นำทางด้วย Google Maps ↗</a></div>').addTo(loyMap);
+    loyMarkers.push(m);
+    const li=document.createElement('li');
+    li.innerHTML='<button type="button" class="loy-row"><span class="loy-n '+kind+'">'+n+'</span><span class="nm">'+p.name+'</span><span class="at">ที่ '+p.at+(p.approx?' <em>· พิกัดโดยประมาณ</em>':'')+'</span></button>';
+    li.firstChild.onclick=()=>{loyMap.flyTo([p.lat,p.lng],15,{duration:.5});setTimeout(()=>m.openPopup(),550);};
+    (kind==='amb'?ul:document.getElementById('loyListMtl')).appendChild(li);
+  };
+  LOY.amb.forEach((p,i)=>add(p,'amb',i+1));
+  LOY.mtl.forEach((p,i)=>add(p,'mtl',i+1));
+  loyMap.fitBounds(L.latLngBounds([...LOY.amb,...LOY.mtl].map(p=>[p.lat,p.lng])).pad(.12));
+}
+document.getElementById('loyFit').onclick=()=>loyMap&&loyMap.flyToBounds(L.latLngBounds([...LOY.amb,...LOY.mtl].map(p=>[p.lat,p.lng])).pad(.12),{duration:.6});
+document.getElementById('loyCount').textContent=LOY.amb.length;
+document.getElementById('loyCountMtl').textContent=LOY.mtl.length;
+
+const VIEWS={map:['viewMap','tabMap',''],list:['viewList','tabList','#hospitals'],loy:['viewLoy','tabLoy','#loykrathong']};
+function showView(v){
+  Object.entries(VIEWS).forEach(([k,[view,tab]])=>{const on=k===v;const el=document.getElementById(view);
+    if(k==='map')el.style.display=on?'flex':'none';else el.hidden=!on;
+    document.getElementById(tab).setAttribute('aria-selected',String(on));});
+  if(v==='list')renderDetail();else if(v==='loy')initLoy();else setTimeout(()=>map.invalidateSize(),30);
+  try{history.replaceState(null,'',VIEWS[v][2]||location.pathname+location.search);}catch(e){}}
 document.getElementById('tabMap').onclick=()=>showView('map');
 document.getElementById('tabList').onclick=()=>showView('list');
+document.getElementById('tabLoy').onclick=()=>showView('loy');
 if(location.hash==='#hospitals')showView('list');
+if(location.hash==='#loykrathong')showView('loy');
 })();
 </script>
